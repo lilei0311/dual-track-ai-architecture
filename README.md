@@ -3,7 +3,7 @@
 **双轨计算架构：AI推理与传统计算的解耦范式**
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](./LICENSE)
-[![Status: Working Draft v0.2](https://img.shields.io/badge/status-working%20draft%20v0.2-orange.svg)](./paper.md)
+[![Status: Working Draft v0.3](https://img.shields.io/badge/status-working%20draft%20v0.3-orange.svg)](./paper.md)
 [![Language](https://img.shields.io/badge/paper-中文%20/%20EN-blue.svg)](./paper.md)
 
 > "AI的本质是内存，GPU真正工作的时间只有10%。" — 金正浩教授（HBM之父）
@@ -77,6 +77,26 @@
 | Apple统一内存 | CPU/GPU/NPU共享内存 | 中 | 中 |
 | NVIDIA独立加速卡 | 多GPU通过NVLink互联 | 中 | 中 |
 | **双轨架构（本文）** | **AI独立封装+低带宽桥接** | **低** | **高** |
+
+## 验证方向（v0.3 新增）
+
+不能只立论，得能被验证。完整路线图见 [`VALIDATION-ROADMAP.md`](./VALIDATION-ROADMAP.md)：
+
+| Tier | 内容 | 目前状态 |
+|---|---|---|
+| **T1 · 文献与现役产品证据** | 拉商家规格，算现役产品的内/外带宽比 | [`EVIDENCE.md`](./EVIDENCE.md) 初版 ✓ |
+| **T2 · 本机 benchmark** | Mac mini M4 上实测 memory BW vs external I/O | [`benchmarks/`](./benchmarks) 占位 |
+| **T3 · 硬件原型** | TB4/USB4 外置 AI 盒，端到端测延迟后吞 | 待启动 |
+| **T4 · 反例搜寻** | 主动找 LoB 会 fail 的场景（长 prefill / 视频 / agentic） | [`counterexamples/`](./counterexamples) 初稿 7 条候选 |
+
+### 当前已知证据（摩括，待官方文档复核）
+
+- **NVIDIA B200**：HBM3e 8 TB/s 内部 vs PCIe Gen5 x16 64 GB/s 外部 → **125:1**
+- **Thunderbolt eGPU**：GDDR6X 1 TB/s vs TB4 5 GB/s → **200:1**（游戏场景已量产 10 年）
+- **Hailo-8 M.2**：板载 SRAM 数百 GB/s vs PCIe Gen3 x4 4 GB/s → **~100:1**
+- **NVIDIA DGX Spark**：LPDDR5x 273 GB/s vs 200GbE 25 GB/s → 11:1（弱一些，但形态已存在）
+
+**初步结论**：LoB 在现有量产产品上已有存量证据；DTA 不是新发明，而是 **把已经在 GPU/NPU 内部实现的带宽悬殊推到“模块与主机之间”**。
 
 ## 实现路线图
 
