@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.5.1 — 2026-07-06 📖 datasheet 复核与来源补齐
+
+**聪明CC 交付 P0 datasheet 复核**（新机制 INBOX/OUTBOX/patches 的第一个完整循环）。
+
+### 已确认 10 项官方来源
+
+- Apple M4 / M4 Pro / M4 Max → Apple Newsroom (120 / 273 / 546 GB/s)
+- Apple M4 Neural Engine 38 TOPS → Apple Support tech specs
+- NVIDIA DGX Spark / GB10 → NVIDIA 官方 spec (128 GB LPDDR5x, 273 GB/s, 200GbE)
+- NVIDIA H100 SXM → NVIDIA 官方 (3 TB/s HBM3, NVLink 900 GB/s)
+- NVIDIA B200 / DGX B200 → NVIDIA 官方 (64 TB/s HBM3e for 8 GPU, NVLink 5 1.8 TB/s)
+- Rockchip RK182X / RK1828 → Rockchip 官网 + RKNN3 SDK 官方发布
+- Google Coral USB → 官方 datasheet PDF
+- Hailo-8 M.2 → Hailo 官方 product brief + M.2 Starter Kit brief
+- Thunderbolt 4 → Intel 官方 press deck PDF
+- Thunderbolt 5 → Intel 官方 tech brief PDF
+
+### 仍待复核【TODO】
+
+- 昂腾 AI Station / OrangePi AI Station
+- Intel Movidius NCS2
+- AMD MI300X / Intel Gaudi 3 / Groq LPU / Cerebras WSE-3 / Tenstorrent Wormhole
+
+### 三方协作机制首次闭环
+
+聪明CC 写 INBOX/to-cc → 完成后写 OUTBOX/from-cc + patches/ → 主人转告 → 大聪明 review + apply + push。本次实际耗时：背景交付后不到 10 分钟完成 review → apply → push。
+
+---
+
 ## v0.5 — 2026-07-06 🎯 T2 本机 benchmark 实数据
 
 **大聪明 Tier 2 首发**：首个自己挖的实测数据。

@@ -1,0 +1,72 @@
+diff --git a/EVIDENCE.md b/EVIDENCE.md
+index c83348a..1fd0a20 100644
+--- a/EVIDENCE.md
++++ b/EVIDENCE.md
+@@ -13,21 +13,21 @@
+ 
+ | 产品 | 内部（memory / interconnect）带宽 | 外部接口带宽 | 内/外比 | LoB 支持度 | 备注 |
+ |---|---|---|---|---|---|
+-| **Apple M4 (base)** | ~120 GB/s (LPDDR5X, unified) | — (SoC 内) | N/A | ✓ 内嵌案例 | ANE ~38 TOPS INT8 |
++| **Apple M4 (base)** | ~120 GB/s (LPDDR5X, unified) | — (SoC 内) | N/A | ✓ 内嵌案例 | ANE ~38 TOPS INT8；来源：Apple Newsroom [M4 Pro/Max 发布](https://www.apple.com/newsroom/2024/10/apple-introduces-m4-pro-and-m4-max/) |
+ | **Apple M4 Pro** | ~273 GB/s | — | N/A | ✓ 内嵌案例 | |
+ | **Apple M4 Max** | ~546 GB/s | — | N/A | ✓ 内嵌案例 | 单机可跑 70B q4 |
+ | **Apple M2 Ultra** | ~800 GB/s | Thunderbolt 4 (~5 GB/s) 出机箱 | **≈ 160 : 1** | ★★★ 强支持 | 若做外置 M2 Ultra dongle |
+ | **NVIDIA DGX Spark / GB10** | LPDDR5x-8533 ≈ **273 GB/s** unified | ConnectX-7 200GbE ≈ 25 GB/s | **≈ 11 : 1** | ★★ 中等支持 | 100 GbE 更常用则 ≈ 22:1。2026-Q3 因 LPDDR5X 供应紧张从 $3,999 涨到 **$4,699 (+18%)**（[Tom's Hardware](https://www.tomshardware.com/desktops/mini-pcs/nvidia-dgx-spark-gets-18-percent-price-increase-as-memory-shortages-bite-founders-edition-now-usd4-699-up-from-usd3-999)） |
+-| **NVIDIA H100 SXM** | HBM3 ≈ **3 TB/s** | NVLink 900 GB/s（域内）/ PCIe Gen5 x16 ~64 GB/s（跨机） | **≈ 47 : 1**（PCIe） | ★★ 中等 | NVLink 域内不能算"外部" |
+-| **NVIDIA B200** | HBM3e ≈ **8 TB/s** | NVLink 5 ≈ 1.8 TB/s / PCIe Gen5 x16 ~64 GB/s | **≈ 125 : 1**（PCIe） | ★★★ 强支持 | |
+-| **RK182X 外置算力卡（RK1828）** | **3D-stacked DRAM ≈1 TB/s** 内部带宽 | PCIe 2.0 x1 / USB 3.0 ≈ 0.5 GB/s | **≈ 2000 : 1** | ★★★ 强支持 | 聪明CC 复核：20 TOPS，支持 0.5B–8B，官方 RKNN3 SDK 数据 **Qwen3-8B decode 61.11 TPS**。**8B 模型已能跑在“窄接口外置协处理器”上——DTA 低端形态已实现** |
++| **NVIDIA H100 SXM** | HBM3 ≈ **3 TB/s** | NVLink 900 GB/s（域内）/ PCIe Gen5 x16 ~64 GB/s（跨机） | **≈ 47 : 1**（PCIe） | ★★ 中等 | NVLink 域内不能算"外部"；HBM 带宽来源：[NVIDIA H100 .md](https://www.nvidia.com/en-us/data-center/h100.md) |
++| **NVIDIA B200** | HBM3e ≈ **8 TB/s** | NVLink 5 ≈ 1.8 TB/s / PCIe Gen5 x16 ~64 GB/s | **≈ 125 : 1**（PCIe） | ★★★ 强支持 | 来源：NVIDIA DGX B200 [.md](https://www.nvidia.com/en-us/data-center/dgx-b200.md)（8 GPU 共 64 TB/s HBM3e）+ Blackwell 架构 [.md](https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture.md) |
++| **RK182X 外置算力卡（RK1828）** | **3D-stacked DRAM ≈1 TB/s** 内部带宽 | PCIe 2.0 x1 / USB 3.0 ≈ 0.5 GB/s | **≈ 2000 : 1** | ★★★ 强支持 | 聪明CC 复核：20 TOPS，支持 0.5B–8B，官方 RKNN3 SDK 数据 **Qwen3-8B decode 61.11 TPS**；来源：[Rockchip RK182X 官网](https://www.rock-chips.com/a/en/products/RK18_Series/2025/1114/2114.html) + [RKNN3 SDK 发布](https://www.rock-chips.com/a/cn/news/rockchip/2026/0309/2163.html) |
+ | **华为昂腾 AI Station 盒子** | 内部专用总线 ~百 GB/s（估） | PCIe + USB | **~100:1**（估） | ★★★ 强支持 | 176 TOPS，具身智能盒子形态 |
+ | **Intel Movidius NCS2** | 内部 SRAM | USB 3.0 | 估 ≥ 50:1 | ★★ 中等 | 视觉推理专用 |
+-| **Google Coral USB Accelerator** | Edge TPU 内部 SRAM ~数十 GB/s（估） | USB 3.0 ≈ 0.625 GB/s | **≈ 数十 : 1** | ★★ 中等 | 小模型场景已被验证 |
+-| **Hailo-8 M.2** | 板载 SRAM ~数百 GB/s（估） | PCIe Gen3 x4 ≈ 4 GB/s | **≈ 100 : 1** | ★★★ 强支持 | 26 TOPS INT8，边缘视觉 |
++| **Google Coral USB Accelerator** | Edge TPU 内部 SRAM ~数十 GB/s（估） | USB 3.0 ≈ 0.625 GB/s | **≈ 数十 : 1** | ★★ 中等 | 小模型场景已被验证；官方 datasheet：[cdn-reichelt PDF](https://cdn-reichelt.de/documents/datenblatt/A300/CORAL-USB-ACCELERATOR-DATASHEET.pdf)（确认 USB 3.1 Gen1 5 Gb/s、MobileNet v2 400 FPS） |
++| **Hailo-8 M.2** | 板载 SRAM ~数百 GB/s（估） | PCIe Gen3 x4 ≈ 4 GB/s | **≈ 100 : 1** | ★★★ 强支持 | 26 TOPS INT8，边缘视觉；来源：[Hailo-8 product brief](https://hailo.ai/wp-content/uploads/2023/10/hailo-8-product-brief-rev3.26.pdf) + [M.2 Starter Kit brief](https://hailo.ai/files/hailo-8-m-2-starter-kit-product-brief-en/) |
+ | **Qualcomm Hexagon NPU (SD8 Gen3)** | 共享 SoC memory ~77 GB/s | — (SoC 内) | N/A | ✓ 内嵌案例 | |
+ | **AMD XDNA (Ryzen AI)** | 共享 DDR ~90 GB/s | — (SoC 内) | N/A | ✓ 内嵌案例 | |
+-| **Thunderbolt 4 eGPU + RTX 4090** | GDDR6X ≈ 1 TB/s | TB4 ≈ 4–5 GB/s（PCIe Gen3 x4 等效） | **≈ 200–250 : 1** | ★★★ 强支持 | 聪明CC 复核：游戏场景 **只损失 20% 性能**，已量产 10 年 — [TechPowerUp 测试](https://www.techpowerup.com/review/nvidia-geforce-rtx-4090-pci-express-scaling/29.html) |
++| **Thunderbolt 4 eGPU + RTX 4090** | GDDR6X ≈ 1 TB/s | TB4 ≈ 4–5 GB/s（PCIe Gen3 x4 等效） | **≈ 200–250 : 1** | ★★★ 强支持 | 聪明CC 复核：游戏场景 **只损失 20% 性能**，已量产 10 年 — [TechPowerUp 测试](https://www.techpowerup.com/review/nvidia-geforce-rtx-4090-pci-express-scaling/29.html)；TB4 规格来源：[Intel press deck PDF](https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf) |
+ | **OCuLink 外置 GPU 盒 + RTX 4090** | GDDR6X ≈ 1 TB/s | OCuLink PCIe Gen4 x4 ≈ 8 GB/s | **≈ 125 : 1** | ★★★ 强支持 | 聪明CC 复核：**只损失 8–15% 性能**，便宜、DIY 友好 |
+ 
+ **待补**：Intel Gaudi 3、AMD MI300X、Groq LPU、Cerebras WSE、Tenstorrent Wormhole、SambaNova。TODO(v0.4)。
+@@ -126,19 +126,27 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
+ 
+ ## 数据来源与复核 TODO
+ 
+-- [ ] Apple M4 系列 memory bandwidth：Apple Newsroom / M4 whitepaper
+-- [ ] DGX Spark：NVIDIA 官方 spec sheet（Project DIGITS announce）
+-- [ ] Coral：Google Coral datasheet
+-- [ ] Hailo-8：Hailo product page
+-- [ ] Thunderbolt 4/5：Intel TB4/5 spec
+-- [ ] B200/H100：NVIDIA H100/B200 whitepaper
+-- [ ] Cerebras / Groq / Tenstorrent：各自 architecture whitepaper
+-- [ ] RK182X：Rockchip 官方 datasheet（惟色 v1.0 引入）
+-- [ ] 昂腾 AI Station：华为 Ascend 官方 spec（惟色 v1.0 引入）
+-- [ ] Intel Movidius NCS2：Intel datasheet
++### ✅ 已复核（聪明CC v0.4）
++
++- [x] **Apple M4 / M4 Pro / M4 Max memory bandwidth**：Apple Newsroom [Apple introduces M4 Pro and M4 Max](https://www.apple.com/newsroom/2024/10/apple-introduces-m4-pro-and-m4-max/) — M4 120 GB/s、M4 Pro 273 GB/s、M4 Max 546 GB/s
++- [x] **Apple M4 Neural Engine ~38 TOPS**：Apple Support [MacBook Pro 14-inch M4 Pro/Max Tech Specs](https://support.apple.com/en-us/121553) 及 M3 18 TOPS 对比（M4 2× 更快）
++- [x] **NVIDIA DGX Spark / GB10**：NVIDIA 官方 spec（.md 格式）[DGX Spark](https://www.nvidia.com/en-us/products/workstations/dgx-spark.md) — 128 GB LPDDR5x、273 GB/s、ConnectX-7 200 GbE、4× USB-C
++- [x] **NVIDIA H100 SXM**：NVIDIA 官方 H100 页面 [.md](https://www.nvidia.com/en-us/data-center/h100.md) — 3 TB/s HBM3、NVLink 900 GB/s；PCIe Gen5 x16 ≈ 64 GB/s 单向为 PCI-SIG 标准值
++- [x] **NVIDIA B200 / DGX B200**：NVIDIA DGX B200 官方 [.md](https://www.nvidia.com/en-us/data-center/dgx-b200.md) — 8× GPU 共 1,440 GB / 64 TB/s HBM3e，即单 GPU 180 GB / 8 TB/s；NVLink 5 1.8 TB/s 见 [Blackwell architecture .md](https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture.md)
++- [x] **Rockchip RK182X / RK1828**：Rockchip 官网 [RK182X Series](https://www.rock-chips.com/a/en/products/RK18_Series/2025/1114/2114.html) + RKNN3 SDK V1.0.0 发布 [官方新闻](https://www.rock-chips.com/a/cn/news/rockchip/2026/0309/2163.html) — 3D stacked DRAM、20 TOPS、Qwen3-8B decode 61.11 TPS
++- [x] **Google Coral USB Accelerator**：Google 官方 datasheet（PDF 镜像） [cdn-reichelt.de](https://cdn-reichelt.de/documents/datenblatt/A300/CORAL-USB-ACCELERATOR-DATASHEET.pdf) — USB 3.1 Gen1 5 Gb/s、Edge TPU、MobileNet v2 400 FPS；**4 TOPS 未在 datasheet 中直接标注**，来自产品页/评测
++- [x] **Hailo-8 M.2**：Hailo 官方 [Hailo-8 AI Processor product brief](https://hailo.ai/wp-content/uploads/2023/10/hailo-8-product-brief-rev3.26.pdf) — 26 TOPS、2.5 W、无外部 DRAM；[Hailo-8 M.2 Starter Kit product brief](https://hailo.ai/files/hailo-8-m-2-starter-kit-product-brief-en/) — PCIe Gen-3.0，2-lanes（Key M 4-lanes）
++- [x] **Thunderbolt 4**：Intel 官方 press deck [intel-thunderbolt4-announcement-press-deck.pdf](https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf) — 40 Gbps、PCIe 32 Gbps、存储 3,000 MB/s
++- [x] **Thunderbolt 5**：Intel 官方 tech brief [Thunderbolt_5_TechBrief_2023_09_12.pdf](https://www.thunderbolttechnology.net/sites/default/files/Thunderbolt_5_TechBrief_2023_09_12.pdf) — 80 Gbps、PCIe 64 Gbps、Bandwidth Boost 120 Gbps
++
++### ⏳ 仍待复核
++
++- [ ] **昂腾 AI Station / OrangePi AI Station**：目前仅找到 CSDN/经销商页面，华为/香橙派官方 spec 待确认
++- [ ] **Intel Movidius NCS2**：Intel datasheet 待查
++- [ ] **Cerebras / Groq / Tenstorrent / AMD MI300X / Intel Gaudi 3**：各自 architecture whitepaper 待补
+ 
+ 以上交接给 **聪明CC** 统一复核，见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
+ 
+ ---
+ 
+-*Version: v0.3 · 2026-07-06*
++*Version: v0.4 · 2026-07-06 · 聪明CC datasheet 复核 + 来源补齐*
