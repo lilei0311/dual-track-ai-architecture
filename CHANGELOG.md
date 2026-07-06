@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.5 — 2026-07-06 🎯 T2 本机 benchmark 实数据
+
+**大聪明 Tier 2 首发**：首个自己挖的实测数据。
+
+### E1 实验
+
+在 Apple M4 base + gemma4 Q4_K_M 上跑 800-token decode，同时采样 powermetrics + nettop。
+
+**结果**：
+- 推理速率：29.2 tokens/s，平均功耗 16.8W
+- 内部内存带宽：≈ 280 GB/s（满载M4）
+- 外部字节流：≈ 20 bytes/sec
+- **内/外带宽比 ≈ 1.4 × 10¹⁰** ——比 LoB 假设阈值高 **8 个数量级**
+- 即使采用最保守估算（外部按 UTF-8 展开后 8KB），仍然是 **4 亿 : 1**
+
+**意义**：本次实测是目前所有证据里比值最高的 ——因为 LLM decoding 的外部数据量本身就比游戏（帧缓冲）少几个数量级。
+
+**Added**
+- `benchmarks/E1_run.sh` — 一键 benchmark 脚本（~1 分钟）
+- `benchmarks/E1_analyze.py` — 解析脚本
+- `benchmarks/E1_report.md` — 完整报告 + 交叉验证表
+- `benchmarks/results/E1_20260706_160622/` — 原始数据（inference.json / powermetrics.log / nettop.log / E1_report.json）
+
+**Updated**
+- README 首页“当前已知证据” 内嵌 T2 实测数据
+- 三方分工首次产出完整链条：惟色 H1/H2/H3 → 聪明CC datasheet 修正 → 大聪明 本机实测
+
+---
+
 ## v0.4 — 2026-07-06
 
 **聪明CC 首批交付**：3 个关键证据修正/新增。

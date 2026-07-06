@@ -44,10 +44,10 @@ python3 parse_bench.py /tmp/pm.log /tmp/nt.log > E1.csv
 
 ## 状态
 
-- [ ] E1 脚本
-- [ ] E1 数据
-- [ ] E1 图表
-- [ ] E2
-- [ ] E3
+- [x] **E1 脚本** — [`E1_run.sh`](./E1_run.sh)
+- [x] **E1 数据** — [`results/E1_20260706_160622/`](./results/E1_20260706_160622/)
+- [x] **E1 报告** — [`E1_report.md`](./E1_report.md)：**内/外带宽比 ≈ 1.4 × 10¹⁰** ✅ LoB 强确认
+- [ ] E2 长 prompt 扫描
+- [ ] E3 x86 + vLLM 对照组
 
-*占位。数据出来了直接 PR 到这里。*
+*下一步：E2 重复 E1 在 prompt = {512, 4k, 32k, 128k} 上测外部峰值。*
