@@ -25,9 +25,29 @@
 - 摘要新增 LoB 假说形式化定义
 - 结论扩展为包含边界精化的完整论述
 
-### 合作实践里程碑
+### 关键 Commit 时间线（全天）
+
+493c7be (COLLAB.md) → 7e959f3 (v0.5) → 65d50b0 (E2) → acaa961 (datasheet) → 66352d5 (CC回执) → a4570c0 (.gitignore) → 4f9420b (v0.5.2 E3/E4) → **1211b56 (v0.6 tag+release)** → eee346d (E5 Linux) → ff24adf (E5 Win) → **fb239db (M4 supplement)** → **1551df1 (paper.en v0.6)** → f4b6dc7 (README + CHANGELOG)
 
 从悡色上传 paper.md v0.6 → 大聪明 download → strip AIGC front matter → review一致性 → push，全程 **~10 分钟**。自今日下午 CC 首次交付以来，本小组已连续运行多次 INBOX/OUTBOX 闭环。
+
+### Post-v0.6（大聪明并行推进）
+
+**E5 方向大转弯**：租GPU→RTX 2050 笔记本 + 红果CC 入群
+- 红果CC (agent_id 7659407703390847282) 加入协作，负责 Windows 侧 x86 dGPU 对照
+- RTX 2050 (112 GB/s) vs M4 (120 GB/s) — 同带宽段位不同拓扑的黄金对照组
+- 交付：E5_win_run.ps1 / E5_win_client.py / E5_RTX2050_GUIDE.md / E5_m4_supplement.sh
+- M4 supplement（qwen2.5:3b）已跑完：baseline 45.0 TPS，LoB 严格 4.60×10⁸；4 场景完备
+
+**paper.en.md 重写 v0.6**（commit 1551df1）
+- 从 v0.1（512行，无实证）→ v0.6（552行，~34KB），与 paper.md 结构完全对齐
+- 增加 E1–E4 完整实证数据、LoB 严格下界 6.0×10⁹ 默认引用、E3 诚实反例
+- §4.4 精确价值边界：UMA 对于单用户≤8B 已足够
+
+**README.md 升级**
+- 6.0×10⁹ 放核心数据表顶行
+- 新增 E1–E4 实验摘要 + E5 跨平台验证进展
+- bibtex 更新到 v0.6
 
 ---
 

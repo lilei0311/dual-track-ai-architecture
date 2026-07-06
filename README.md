@@ -3,7 +3,7 @@
 **双轨计算架构：AI推理与传统计算的解耦范式**
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](./LICENSE)
-[![Status: Working Draft v0.5](https://img.shields.io/badge/status-working%20draft%20v0.5-orange.svg)](./paper.md)
+[![Status: v0.6](https://img.shields.io/badge/status-v0.6-blue.svg)](./paper.md)
 [![Language](https://img.shields.io/badge/paper-中文%20/%20EN-blue.svg)](./paper.md)
 
 > "AI的本质是内存，GPU真正工作的时间只有10%。" — 金正浩教授（HBM之父）
@@ -52,15 +52,21 @@
 
 | 指标 | 数值 | 说明 |
 |------|------|------|
-| GPU有效利用率 | 10%-30% | 90%时间在等数据 |
-| AI轨内部带宽 | >1TB/s | 权重加载+KV缓存全闭环 |
-| 外部接口带宽 | <1MB/s | 仅传输prompt和输出 |
-| 内外带宽比 | >1,000,000:1 | 所以USB就够用 |
+| GPU有效利用率 | 10%–30% | 90%时间在等数据 |
+| AI轨内部带宽 | >1 TB/s | 权重加载+KV缓存全闭环 |
+| 外部接口带宽 | <1 MB/s | 仅传输prompt和输出 |
+| **LoB ratio（E1实测·严格下界）** | **6.0 × 10⁹** | 远超100:1阈值达7个数量级 |
+| LoB ratio（E1实测·宽松上界） | 1.4 × 10¹⁰ | 含cache局部性估算 |
+| LoB ratio保持（E4·64k上下文） | ≥1.56 × 10⁸ | 长上下文不崩 |
+| UMA干扰（E3·AES并发） | −0.3%（噪声内） | 单用户≤8B无需隔离 |
+
+> **LoB假说已经四组实验（E1–E4）实证验证**：所有采样点超过100:1阈值达百万倍以上。详见[paper.md §5.3](paper.md)
 
 ## 论文
 
 - 中文主版：[paper.md](paper.md) — 8 章完整学术探索，含数据表与参考文献
-- English extended draft：[paper.en.md](paper.en.md) — 引入 **Locality-of-Bandwidth (LoB) Hypothesis** 的形式化命名与量化推导
+- English extended draft：[paper.en.md](paper.en.md) — v0.6，与中文版结构对齐，含E1–E4完整实证数据
+- 跨平台对照实验（E5）：M4 UMA vs RTX 2050 dGPU → [RTX2050指南](benchmarks/E5_RTX2050_GUIDE.md) | [M4补充](benchmarks/E5_m4_supplement.sh)
 
 ## 架构图
 
@@ -91,7 +97,20 @@
 | **大聪明** | 技术协调 + 代码实证 | GitHub 仓库 / 英文扩展 / VALIDATION-ROADMAP / Mac 本机 benchmark |
 | **聪明CC** | 信息挖矿 | datasheet 复核 / 新产品补齐 / 学术文献 / 产业新闻监控 |
 
-## 验证方向（v0.3 新增）
+## 实证验证
+
+**LoB假说已在Apple M4上通过四组实验验证（v0.6）**：
+
+| 实验 | 内容 | 结果 | LoB（严格下界）|
+|------|------|------|:---:|
+| [E1](benchmarks/E1_report.md) | 基线decode · gemma4 · 800 tokens | 29.2 TPS | **6.0 × 10⁹** |
+| [E2](benchmarks/E2_report.md) | Prompt长度扫描 · 360 → 4,322 tokens | decode稳定 24–29 TPS | 2.8×10⁸ – 3.1×10⁹ |
+| [E4](benchmarks/E4_report.md) | 长上下文 · 8k → 64k tokens | LoB不崩 | ≥1.28 × 10⁸ |
+| [E3](benchmarks/E3_report.md) | UMA干扰 · AES加密并发 | −0.3%（⚠️部分反驳） | — |
+
+**跨平台验证（E5 进行中）**：M4 UMA (120 GB/s) vs RTX 2050 dGPU (112 GB/s) — 同带宽段位不同拓扑的严格对照组。
+
+## 验证方向（v0.3）
 
 不能只立论，得能被验证。完整路线图见 [`VALIDATION-ROADMAP.md`](./VALIDATION-ROADMAP.md)：
 
@@ -102,9 +121,9 @@
 | **T3 · 硬件原型** | TB4/USB4 外置 AI 盒，端到端测延迟后吞 | 待启动 |
 | **T4 · 反例搜寻** | 主动找 LoB 会 fail 的场景（长 prefill / 视频 / agentic） | [`counterexamples/`](./counterexamples) 初稿 7 条候选 |
 
-### 当前已知证据（摩括，待官方文档复核）
+### 当前已知证据
 
-- 🎯 **T2 本机实测**（[E1_report.md](./benchmarks/E1_report.md)）：Apple M4 base + gemma4 Q4 本地推理，内/外带宽比 **≈ 1.4 × 10¹⁰**（中部≈ 4 亿：1 保守估算） ✅ **LoB 强确认**
+- 🎯 **T2 本机实测**（[E1_report.md](./benchmarks/E1_report.md)）：Apple M4 base + gemma4 Q4 本地推理，**严格下界 6.0 × 10⁹**，宽松上界 1.4 × 10¹⁰ ✅ **LoB 强确认**
 - **NVIDIA B200**：HBM3e 8 TB/s 内部 vs PCIe Gen5 x16 64 GB/s 外部 → **125:1**
 - **Rockchip RK1828**（3D-stacked DRAM）：≈ 1 TB/s vs PCIe 2.0 x1 / USB 3.0 → **~2000:1**，且 **Qwen3-8B decode 61 TPS** 已官方公布
 - **Thunderbolt eGPU**：GDDR6X 1 TB/s vs TB4 4–5 GB/s → **200–250:1**（游戏场景性能只损失 **20%**，已量产 10 年）
@@ -144,7 +163,7 @@
   title  = {Dual-Track Computing Architecture: Decoupling AI Inference from General-Purpose System Design},
   year   = {2026},
   howpublished = {\url{https://github.com/lilei0311/dual-track-ai-architecture}},
-  note   = {Working draft v0.2}
+  note   = {v0.6 — incorporating E1–E4 empirical validation of the Locality-of-Bandwidth hypothesis on Apple M4}
 }
 ```
 
