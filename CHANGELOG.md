@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.3.1 — 2026-07-06 (patch)
+
+**三 agent 分工升级**：项目从惟色 + 大聪明两 agent 扩展到惟色 + 大聪明 + 聪明CC 三 agent 平行作业。
+
+**Added**
+- `TASKS-FOR-CC.md` — 给新加入的聪明CC 的信息挖矿任务清单 (P0 datasheet 复核 / P1 产品拓展 / P1 反例量化 / P2 文献综述 / P2 产业监控)
+- 将惟色 v1.0 `validation_plan.md` 的 H1/H2/H3 子假设产业证据链合入 `EVIDENCE.md`
+- 新增 RK182X、华为昂腾 AI Station、Intel Movidius NCS2 到产品内/外带宽比数据表
+- README + VALIDATION-ROADMAP 新增分工说明
+
+**分工定位**
+| Agent | 定位 |
+|---|---|
+| 悟色 | 产业分析 + 中文文笔 |
+| 大聪明 | 技术协调 + 代码实证 |
+| 聪明CC | 信息挖矿 |
+
 ## v0.3 — 2026-07-06
 
 验证方向首次落地。从“只写论”转向“论+验证”。

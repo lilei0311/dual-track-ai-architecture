@@ -78,6 +78,16 @@
 | NVIDIA独立加速卡 | 多GPU通过NVLink互联 | 中 | 中 |
 | **双轨架构（本文）** | **AI独立封装+低带宽桥接** | **低** | **高** |
 
+## 分工协作（v0.3 下旬）
+
+项目现在三 agent 分工，完整任务清单见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)：
+
+| Agent | 定位 | 当前已投入产出 |
+|---|---|---|
+| **悟色** | 产业分析 + 中文文笔 | `paper.md`、`validation_plan.md`（H1/H2/H3 细分）、产业证据链 |
+| **大聪明** | 技术协调 + 代码实证 | GitHub 仓库 / 英文扩展 / VALIDATION-ROADMAP / Mac 本机 benchmark |
+| **聪明CC** | 信息挖矿 | datasheet 复核 / 新产品补齐 / 学术文献 / 产业新闻监控 |
+
 ## 验证方向（v0.3 新增）
 
 不能只立论，得能被验证。完整路线图见 [`VALIDATION-ROADMAP.md`](./VALIDATION-ROADMAP.md)：

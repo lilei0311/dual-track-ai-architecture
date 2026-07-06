@@ -20,6 +20,9 @@
 | **NVIDIA DGX Spark / GB10** | LPDDR5x-8533 ≈ **273 GB/s** unified | ConnectX-7 200GbE ≈ 25 GB/s | **≈ 11 : 1** | ★★ 中等支持 | 100 GbE 更常用则 ≈ 22:1 |
 | **NVIDIA H100 SXM** | HBM3 ≈ **3 TB/s** | NVLink 900 GB/s（域内）/ PCIe Gen5 x16 ~64 GB/s（跨机） | **≈ 47 : 1**（PCIe） | ★★ 中等 | NVLink 域内不能算"外部" |
 | **NVIDIA B200** | HBM3e ≈ **8 TB/s** | NVLink 5 ≈ 1.8 TB/s / PCIe Gen5 x16 ~64 GB/s | **≈ 125 : 1**（PCIe） | ★★★ 强支持 | |
+| **RK182X 外置算力卡** | 板载 SRAM ~数百 GB/s（估） | PCIe + USB 双接口 | **~100:1**（估） | ★★★ 强支持 | 20 TOPS，支持 0.5B–8B 模型，**中国企业已量产的 Track A 形态** |
+| **华为昂腾 AI Station 盒子** | 内部专用总线 ~百 GB/s（估） | PCIe + USB | **~100:1**（估） | ★★★ 强支持 | 176 TOPS，具身智能盒子形态 |
+| **Intel Movidius NCS2** | 内部 SRAM | USB 3.0 | 估 ≥ 50:1 | ★★ 中等 | 视觉推理专用 |
 | **Google Coral USB Accelerator** | Edge TPU 内部 SRAM ~数十 GB/s（估） | USB 3.0 ≈ 0.625 GB/s | **≈ 数十 : 1** | ★★ 中等 | 小模型场景已被验证 |
 | **Hailo-8 M.2** | 板载 SRAM ~数百 GB/s（估） | PCIe Gen3 x4 ≈ 4 GB/s | **≈ 100 : 1** | ★★★ 强支持 | 26 TOPS INT8，边缘视觉 |
 | **Qualcomm Hexagon NPU (SD8 Gen3)** | 共享 SoC memory ~77 GB/s | — (SoC 内) | N/A | ✓ 内嵌案例 | |
@@ -67,6 +70,46 @@ Coral USB Accelerator ≈ 60 USD，Hailo-8 M.2 ≈ 200 USD，两者都是"独立
 
 ---
 
+## 三个子假设的产业证据（悟色 v1.0 预研成果合并）
+
+悟色的 `validation_plan.md` 把 LoB 假设拆成了三个可验证的子命题，下面把她拉的产业证据归类存档。
+
+### H1 · 内外带宽需求比 > 10⁶:1
+
+- **DDN 实测**：GPU HBM 仅 512GB，系统 RAM 512GB，推理中 GPU 有效利用率 **10%-30%**
+  — [来源](https://wiki.lustre.org/images/b/b8/LUG2026-DDN_Sponsor_Talk-LLM_Experiments-Skupinski.pdf)
+- **金正浩**："AI 装100万台GPU，真正工作的时间只有10%"
+  — [来源](https://tech.ifeng.com/c/8uVduE3DXN2)
+- **7B 模型在 2048 token 上下文时 KV Cache 已超 32GB 显存**
+  — [来源](https://blog.csdn.net/gfdr5/article/details/158498850)
+- **DRAM 价格暴涨 3.5-5 倍，内存占服务器成本从 50% → 75%**
+
+→ **结论**：内存是当前瓶颈，内部带宽需求确实远超外部。
+
+### H2 · USB 级接口足以支撑推理外部传输
+
+- **Coral USB Accelerator**：树莓派 + USB 3.0 稳定跑推理，延迟 60–100ms，功耗 <2W
+  — [来源](https://blog.csdn.net/weixin_42590539/article/details/154431696)
+- **RK182X**：USB+PCIe 与主控通信，支持 8B 大模型本地推理
+  — [来源](https://developer.cloud.tencent.cn/article/2682979)
+- **昂腾 AI Station**：PCIe+USB 接口运行 176 TOPS 推理
+  — [来源](https://m.elecfans.com/article/7833562.html)
+
+→ **结论**：USB 级接口已被 **量产产品** 验证可支撑边缘 AI 推理；DTA 的工程先辈已存在。
+
+### H3 · 独立模块方案比整合方案更具工程可行性
+
+- 金正浩 100 层 3D 方案：预计 **10-15 年** 初步实现，供电需数千安培
+- **HBF 标准化联盟**：闪迪 + SK 海力士 **2026 年 2 月启动**，2027 年出样品
+  — [来源](https://tech.ifeng.com/c/8uVduE3DXN2)
+- **MRDIMM 过渡方案**：兼容现有 DDR5 插槽，带宽提升 40%，2026-2028 规模化
+  — [来源](https://m.eeworld.com.cn/news_mp/AIxintianxia/a426958.jspx)
+- **RK182X / Coral USB / 昂腾 AI Station** 均验证"独立模块"形态可行
+
+→ **结论**：独立模块形态已被产业实践采用，但 HBM 级独立模块尚未有成品——这就是 DTA 的市场空档。
+
+---
+
 ## 数据来源与复核 TODO
 
 - [ ] Apple M4 系列 memory bandwidth：Apple Newsroom / M4 whitepaper
@@ -76,8 +119,11 @@ Coral USB Accelerator ≈ 60 USD，Hailo-8 M.2 ≈ 200 USD，两者都是"独立
 - [ ] Thunderbolt 4/5：Intel TB4/5 spec
 - [ ] B200/H100：NVIDIA H100/B200 whitepaper
 - [ ] Cerebras / Groq / Tenstorrent：各自 architecture whitepaper
+- [ ] RK182X：Rockchip 官方 datasheet（惟色 v1.0 引入）
+- [ ] 昂腾 AI Station：华为 Ascend 官方 spec（惟色 v1.0 引入）
+- [ ] Intel Movidius NCS2：Intel datasheet
 
-**PR 欢迎**：如果你手边有权威 datasheet 数字，帮忙修正上表。
+以上交接给 **聪明CC** 统一复核，见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
 
 ---
 

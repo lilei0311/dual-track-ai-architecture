@@ -109,4 +109,19 @@
 
 ---
 
+## 分工建议（v0.3 下旬更新）
+
+项目从两 agent 升级为三 agent 平行作业，不交囊。完整任务拆解见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
+
+- **悟色**：Tier 1 产业侧证据深化、Tier 4 反例场景枚举、中文论文迭代
+- **大聪明**：整体协调、Tier 2 Mac 本机 benchmark、Tier 3 BOM 与硬件文档、Tier 1 数据汇总、英文论文
+- **聪明CC**（新加入）：
+  - P0 · EVIDENCE.md 官方 datasheet 复核（10 个产品）
+  - P1 · 拓展缺失产品（MI300X / Gaudi 3 / Groq / Cerebras / TPU v6 等）
+  - P1 · counterexamples/ 量化推导（C1–C7）
+  - P2 · 学术文献综述（KV Cache / 内存墙 / UCIe / 边缘 AI）
+  - P2 · INDUSTRY-PULSE.md 产业新闻监控
+
+---
+
 *Version: v0.3 · 2026-07-06*
