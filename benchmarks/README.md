@@ -47,7 +47,9 @@ python3 parse_bench.py /tmp/pm.log /tmp/nt.log > E1.csv
 - [x] **E1 脚本** — [`E1_run.sh`](./E1_run.sh)
 - [x] **E1 数据** — [`results/E1_20260706_160622/`](./results/E1_20260706_160622/)
 - [x] **E1 报告** — [`E1_report.md`](./E1_report.md)：**内/外带宽比 ≈ 1.4 × 10¹⁰** ✅ LoB 强确认
-- [ ] E2 长 prompt 扫描
+- [x] **E2 脚本** — [`E2_run.sh`](./E2_run.sh)
+- [x] **E2 数据** — [`results/E2_20260706_162158/`](./results/E2_20260706_162158/)
+- [x] **E2 报告** — [`E2_report.md`](./E2_report.md)：prompt 512→4322 扫描，LoB ratio 稳定在 10⁸–10⁹ ✅
 - [ ] E3 x86 + vLLM 对照组
 
-*下一步：E2 重复 E1 在 prompt = {512, 4k, 32k, 128k} 上测外部峰值。*
+*下一步：E3 需要外部 x86 + GPU 机器（待主人提供或上云）。*

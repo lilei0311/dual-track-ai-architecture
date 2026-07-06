@@ -1,0 +1,39 @@
+{
+  "experiment": "E2 \u00b7 prompt-length sweep on Apple M4 base + gemma4",
+  "sweep_points": [
+    {
+      "input_tokens": 1475,
+      "output_tokens": 200,
+      "prefill_tps": 373.3,
+      "decode_tps": 28.3,
+      "prefill_duration_sec": 3.952,
+      "eval_duration_sec": 7.058,
+      "external_bps": 523.4,
+      "internal_gbps_est": 272.1,
+      "lob_ratio": "5.20e+08"
+    },
+    {
+      "input_tokens": 360,
+      "output_tokens": 200,
+      "prefill_tps": 279.6,
+      "decode_tps": 28.9,
+      "prefill_duration_sec": 1.288,
+      "eval_duration_sec": 6.91,
+      "external_bps": 88.9,
+      "internal_gbps_est": 277.9,
+      "lob_ratio": "3.13e+09"
+    },
+    {
+      "input_tokens": 4322,
+      "output_tokens": 200,
+      "prefill_tps": 355.4,
+      "decode_tps": 24.2,
+      "prefill_duration_sec": 12.16,
+      "eval_duration_sec": 8.257,
+      "external_bps": 834.6,
+      "internal_gbps_est": 232.5,
+      "lob_ratio": "2.79e+08"
+    }
+  ],
+  "observation_placeholder": "to be filled after analysis"
+}
