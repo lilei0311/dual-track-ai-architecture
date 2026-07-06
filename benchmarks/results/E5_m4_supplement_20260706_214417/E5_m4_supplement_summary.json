@@ -1,0 +1,71 @@
+{
+  "experiment": "E5 · M4 supplement (aligned model with RTX 2050 side)",
+  "hardware": "Apple M4 base 16GB, UMA LPDDR5X-7500, 120 GB/s official peak",
+  "model": "qwen2.5:3b",
+  "scenarios": [
+    {
+      "name": "E5_1_baseline",
+      "prompt_bytes": 72,
+      "response_bytes": 3462,
+      "prompt_tokens": 45,
+      "completion_tokens": 609,
+      "eval_ns": 13207105878,
+      "total_ns": 13534608375,
+      "wall_elapsed_sec": 13.542225122451782,
+      "decode_tps_ollama": 46.111540683144966,
+      "decode_tps_wall": 44.97045311928342,
+      "external_bps_total": 260.96154568727025,
+      "lob_ratio_strict": 459837864.93894,
+      "internal_bw_loose_gbs": 89.94090623856684,
+      "lob_ratio_loose": 344651952.4617997
+    },
+    {
+      "name": "E5_2_prompt2k",
+      "prompt_bytes": 4500,
+      "response_bytes": 676,
+      "prompt_tokens": 1030,
+      "completion_tokens": 183,
+      "eval_ns": 4084118881,
+      "total_ns": 6112275500,
+      "wall_elapsed_sec": 6.116527080535889,
+      "decode_tps_ollama": 44.807706467935205,
+      "decode_tps_wall": 29.91893889955062,
+      "external_bps_total": 846.2318455960329,
+      "lob_ratio_strict": 141805110.05879185,
+      "internal_bw_loose_gbs": 59.83787779910124,
+      "lob_ratio_loose": 70710973.72488408
+    },
+    {
+      "name": "E5_3_prompt6k",
+      "prompt_bytes": 22500,
+      "response_bytes": 784,
+      "prompt_tokens": 4096,
+      "completion_tokens": 156,
+      "eval_ns": 3690039174,
+      "total_ns": 12712104584,
+      "wall_elapsed_sec": 12.721821308135986,
+      "decode_tps_ollama": 42.27597395148955,
+      "decode_tps_wall": 12.262395157227473,
+      "external_bps_total": 1830.241082313362,
+      "lob_ratio_strict": 65565133.008775055,
+      "internal_bw_loose_gbs": 24.524790314454947,
+      "lob_ratio_loose": 13399759.491496308
+    },
+    {
+      "name": "E5_4_prompt8k",
+      "prompt_bytes": 40800,
+      "response_bytes": 495,
+      "prompt_tokens": 4096,
+      "completion_tokens": 95,
+      "eval_ns": 2238762748,
+      "total_ns": 11271773125,
+      "wall_elapsed_sec": 11.290027141571045,
+      "decode_tps_ollama": 42.43415256255639,
+      "decode_tps_wall": 8.41450590053944,
+      "external_bps_total": 3657.652854345013,
+      "lob_ratio_strict": 32807924.85745309,
+      "internal_bw_loose_gbs": 16.82901180107888,
+      "lob_ratio_loose": 4601041.2882915605
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+  → E5_1_baseline  prompt_bytes=72
+    done in 13.5s · decode 45.0 tok/s
+  → E5_2_prompt2k  prompt_bytes=4500
+    done in 6.1s · decode 29.9 tok/s
+  → E5_3_prompt6k  prompt_bytes=22500
+    done in 12.7s · decode 12.3 tok/s
+  → E5_4_prompt8k  prompt_bytes=40800
+    done in 11.3s · decode 8.4 tok/s
+
+==> Summary written: results/E5_m4_supplement_20260706_214417/E5_m4_supplement_summary.json
+    E5_1_baseline        TPS=  45.0  LoB_strict=4.60e+08
+    E5_2_prompt2k        TPS=  29.9  LoB_strict=1.42e+08
+    E5_3_prompt6k        TPS=  12.3  LoB_strict=6.56e+07
+    E5_4_prompt8k        TPS=   8.4  LoB_strict=3.28e+07

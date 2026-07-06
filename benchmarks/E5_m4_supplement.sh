@@ -6,7 +6,7 @@ set -euo pipefail
 
 MODEL="${MODEL:-qwen2.5:3b}"
 STAMP="$(date +%Y%m%d_%H%M%S)"
-OUT="results/E5_m4_supplement_${STAMP}"
+OUT="benchmarks/results/E5_m4_supplement_${STAMP}"
 mkdir -p "$OUT"
 
 echo "==> E5 · M4 supplement run"
@@ -22,6 +22,7 @@ fi
 # Reuse the M4 E1/E4 style client. If E1_run.sh exists, we invoke similar prompts.
 # For simplicity, write minimal inline client here.
 
+export MODEL OUT
 python3 <<'PYEOF' 2>&1 | tee "$OUT/run.log"
 import json, os, sys, time, urllib.request
 
