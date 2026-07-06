@@ -3,7 +3,7 @@
 **双轨计算架构：AI推理与传统计算的解耦范式**
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](./LICENSE)
-[![Status: Working Draft v0.3](https://img.shields.io/badge/status-working%20draft%20v0.3-orange.svg)](./paper.md)
+[![Status: Working Draft v0.4](https://img.shields.io/badge/status-working%20draft%20v0.4-orange.svg)](./paper.md)
 [![Language](https://img.shields.io/badge/paper-中文%20/%20EN-blue.svg)](./paper.md)
 
 > "AI的本质是内存，GPU真正工作的时间只有10%。" — 金正浩教授（HBM之父）
@@ -102,7 +102,9 @@
 ### 当前已知证据（摩括，待官方文档复核）
 
 - **NVIDIA B200**：HBM3e 8 TB/s 内部 vs PCIe Gen5 x16 64 GB/s 外部 → **125:1**
-- **Thunderbolt eGPU**：GDDR6X 1 TB/s vs TB4 5 GB/s → **200:1**（游戏场景已量产 10 年）
+- **Rockchip RK1828**（3D-stacked DRAM）：≈ 1 TB/s vs PCIe 2.0 x1 / USB 3.0 → **~2000:1**，且 **Qwen3-8B decode 61 TPS** 已官方公布
+- **Thunderbolt eGPU**：GDDR6X 1 TB/s vs TB4 4–5 GB/s → **200–250:1**（游戏场景性能只损失 **20%**，已量产 10 年）
+- **OCuLink eGPU**：同内存 vs PCIe Gen4 x4 8 GB/s → **125:1**（性能只损失 **8–15%**）
 - **Hailo-8 M.2**：板载 SRAM 数百 GB/s vs PCIe Gen3 x4 4 GB/s → **~100:1**
 - **NVIDIA DGX Spark**：LPDDR5x 273 GB/s vs 200GbE 25 GB/s → 11:1（弱一些，但形态已存在）
 

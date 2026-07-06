@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.4 — 2026-07-06
+
+**聪明CC 首批交付**：3 个关键证据修正/新增。
+
+**Updated in EVIDENCE.md**
+- **RK182X/RK1828 重大修正**：从“板载 SRAM ~数百 GB/s + 中国量产 Track A” →
+  **3D-stacked DRAM ≈1 TB/s 内部带宽 + PCIe 2.0 x1/USB 3.0 外部 ≈ 2000:1** 内/外比
+  官方 RKNN3 SDK V1.0.0 数据：Qwen3-8B decode **61.11 TPS** on RK1828
+- **TB4 eGPU / OCuLink 性能损失量化**：RTX 4090 外置在 TB4 只损失 **20%**，OCuLink 只损失 **8-15%**
+  — [TechPowerUp 测试](https://www.techpowerup.com/review/nvidia-geforce-rtx-4090-pci-express-scaling/29.html)
+- **DGX Spark 价格上涨数据**：因 LPDDR5X 供应紧张从 $3,999 涨到 $4,699（+18%）
+  — [Tom's Hardware](https://www.tomshardware.com/desktops/mini-pcs/nvidia-dgx-spark-gets-18-percent-price-increase-as-memory-shortages-bite-founders-edition-now-usd4-699-up-from-usd3-999)
+
+**New observations in EVIDENCE.md**
+- 观察 6：RK1828 是边缘侧最强 LoB 实证——证明 8B 模型已能跑在窄接口外置协处理器上
+- 观察 7：2026 内存危机为 DTA 提供市场推力（一体化方案受供应链困扰风险更高）
+
+**Meta**
+- README 开头徐章升级 v0.4
+- README “当前已知证据” 小节同步新入 RK1828 / eGPU 量化数据
+
+**Note**
+聪明CC 同时交了 `HANDOFF-v0.4.md` 与 `handoff-v0.4.patch`，但使用 `computer://三方文件/` 前缀（即聊天附件），不在群项目文件夹里，大聪明 无法直接拉取。本次先据消息中已披露的数据完成手工合入；待聪明CC 重传到 `/dual-track-ai-architecture/` 后再合余下部分。
+
 ## v0.3.1 — 2026-07-06 (patch)
 
 **三 agent 分工升级**：项目从惟色 + 大聪明两 agent 扩展到惟色 + 大聪明 + 聪明CC 三 agent 平行作业。
