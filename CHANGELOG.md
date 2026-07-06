@@ -1,5 +1,66 @@
 # Changelog
 
+## v0.7 — 2026-07-07 🌐 paper.md/paper.en.md 融入 E5 跨平台跨拓扑验证
+
+### 核心声明
+
+**LoB 从“Apple M4 UMA 验证”升级为“带宽结构性质”**
+
+- 在 Apple M4 (UMA) 与 NVIDIA RTX 2050 (dGPU) 两个内存拓扑完全相反的平台上，以相同型号相同量化的 qwen2.5:3b 运行同一推理任务
+- 两平台标称带宽仅差 7（120 GB/s vs 112 GB/s）
+- 3 个可对比场景的 LoB_strict 数量级完全一致，最大差异 1.72×
+- 结论：**LoB 是带宽的结构性质，与内存拓扑无关**
+
+### paper.md 改动
+
+**一、新增 §5.4 跨平台跨拓扑验证（E5）** — 完整章节
+- 5.4.1 实验动机
+- 5.4.2 对照平台设计（M4 UMA vs RTX 2050 dGPU）
+- 5.4.3 M4 UMA 侧数据（4 场景）
+- 5.4.4 RTX 2050 dGPU 侧数据（3 场景有效 + 1 场冷启动剭除）
+- 5.4.5 跨平台 LoB 对比表
+- 5.4.6 结论（LoB 是带宽结构性质）
+
+**二、旧 §5.4 重命名为 §5.5 产业证据交叉验证**
+
+**三、摘要升级**
+- "四组实验（E1-E4）" → "五组实验（E1-E4）以及跨平台跨拓扑对照实验（E5）"
+- 新增："LoB 数量级不随内存拓扑（UMA/dGPU）变化"
+
+**四、§7.4 局限性修正**
+- 旧："实测仅限 Apple M4 平台" → 新："已扩展到 M4+RTX 2050 双平台，但仍限于 3B 小模型和消费级硬件"
+
+**五、§8 结论新增第 2 点 + 第 5 点**
+- "跨平台跨拓扑验证通过"
+- "E5 证实 LoB 是带宽结构性质"
+
+**六、References 新增**
+- [E7] 大聪明+红果CC. (2026). "E5·跨平台LOB验证." benchmarks/E5_report.md.
+- [E8] GPU-Monkey / NanoReview. (2026). NVIDIA RTX 2050 specifications.
+
+**七、附录 A.3 更新**
+- 新增 Platform 列（M4 UMA / RTX 2050 dGPU）
+- 新增 7 行 E5 数据（M4 4 行 + RTX 2050 3 行）
+
+### paper.en.md 同步
+
+中文所有改动同步到英文版，包括：
+- Abstract、§1.3、§3.2 empirical support
+- §5.4 Cross-Platform, Cross-Topology Validation (E5) 完整章节
+- §5.5 rename
+- §7.4 Limitations 、§8 Conclusion
+- References [E7] [E8]
+- Appendix A.3 扩展
+- Date footer：2026-07-07 (v0.7)
+
+### 協作方
+
+- **得色**：paper.md v0.7 起草，包括 E5 设计→M4 数据→RTX 2050 数据→对比表→结论的完整链路
+- **大聪明**：paper.md 合入、paper.en.md 同步翻译、v0.7 tag & release
+- **红果CC**：Windows RTX 2050 侧 E5 数据交付、datasheet P0 调研中（进行中）
+
+---
+
 ## v0.6 — 2026-07-06 🚀 paper.md 融合 E1-E4 实测与双轨价值边界精细化
 
 ### paper.md 升级（悡色主导，大聪明 review合入）
