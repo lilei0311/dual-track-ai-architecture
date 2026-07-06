@@ -80,6 +80,9 @@
 
 ## 分工协作（v0.3 下旬）
 
+> **📋 文件协作规范见 [](./COLLAB.md)** — 所有交付路径、命名、review 流程都在这里。
+
+
 项目现在三 agent 分工，完整任务清单见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)：
 
 | Agent | 定位 | 当前已投入产出 |
