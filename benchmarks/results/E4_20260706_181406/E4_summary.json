@@ -1,0 +1,60 @@
+{
+  "experiment": "E4 \u00b7 long-context LoB decay on Apple M4 + gemma4 128k ctx",
+  "purpose": "verify \u609f\u8272 concern: does LoB collapse at 32k+ context?",
+  "sweep_points": [
+    {
+      "input_tokens": 5660,
+      "output_tokens": 100,
+      "prefill_tps": 347.4,
+      "decode_tps": 27.1,
+      "prefill_duration_sec": 16.293,
+      "eval_duration_sec": 3.685,
+      "external_bps": 826.4,
+      "internal_gbps_strict_dram_peak": 120.0,
+      "internal_gbps_loose_scan_est": 279.7,
+      "lob_ratio_strict": "1.45e+08",
+      "lob_ratio_loose": "3.38e+08"
+    },
+    {
+      "input_tokens": 11478,
+      "output_tokens": 100,
+      "prefill_tps": 310.7,
+      "decode_tps": 24.7,
+      "prefill_duration_sec": 36.94,
+      "eval_duration_sec": 4.05,
+      "external_bps": 939.3,
+      "internal_gbps_strict_dram_peak": 120.0,
+      "internal_gbps_loose_scan_est": 254.5,
+      "lob_ratio_strict": "1.28e+08",
+      "lob_ratio_loose": "2.71e+08"
+    },
+    {
+      "input_tokens": 22942,
+      "output_tokens": 100,
+      "prefill_tps": 260.6,
+      "decode_tps": 20.8,
+      "prefill_duration_sec": 88.023,
+      "eval_duration_sec": 4.805,
+      "external_bps": 899.5,
+      "internal_gbps_strict_dram_peak": 120.0,
+      "internal_gbps_loose_scan_est": 214.5,
+      "lob_ratio_strict": "1.33e+08",
+      "lob_ratio_loose": "2.38e+08"
+    },
+    {
+      "input_tokens": 45624,
+      "output_tokens": 100,
+      "prefill_tps": 204.7,
+      "decode_tps": 16.7,
+      "prefill_duration_sec": 222.831,
+      "eval_duration_sec": 5.997,
+      "external_bps": 767.6,
+      "internal_gbps_strict_dram_peak": 120.0,
+      "internal_gbps_loose_scan_est": 171.9,
+      "lob_ratio_strict": "1.56e+08",
+      "lob_ratio_loose": "2.24e+08"
+    }
+  ],
+  "lob_threshold": 100,
+  "result_summary": "LoB ratio holds (both strict-DRAM-lower-bound and loose-scan-estimate) even at longest context tested."
+}

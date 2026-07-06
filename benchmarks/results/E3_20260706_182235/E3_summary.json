@@ -1,0 +1,16 @@
+{
+  "experiment": "E3 \u00b7 UMA interference test",
+  "purpose": "\u609f\u8272\u7ea0\u7ed3\u70b93: does inference workload starve co-located CPU tasks (or vice versa) on UMA?",
+  "results": {
+    "A_baseline": {
+      "decode_tps": 29.4,
+      "eval_duration_sec": 6.803
+    },
+    "B_with_cpu_bg": {
+      "decode_tps": 29.5,
+      "eval_duration_sec": 6.79
+    },
+    "inference_slowdown_pct": -0.3
+  },
+  "interpretation_hint": "Large slowdown => strong case for Dual-Track (external AI puck decouples). Small slowdown => UMA is fine."
+}

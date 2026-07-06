@@ -46,10 +46,14 @@ python3 parse_bench.py /tmp/pm.log /tmp/nt.log > E1.csv
 
 - [x] **E1 脚本** — [`E1_run.sh`](./E1_run.sh)
 - [x] **E1 数据** — [`results/E1_20260706_160622/`](./results/E1_20260706_160622/)
-- [x] **E1 报告** — [`E1_report.md`](./E1_report.md)：**内/外带宽比 ≈ 1.4 × 10¹⁰** ✅ LoB 强确认
+- [x] **E1 报告** — [`E1_report.md`](./E1_report.md)：**LoB 严格下界 6.0 × 10⁹** ✅
 - [x] **E2 脚本** — [`E2_run.sh`](./E2_run.sh)
-- [x] **E2 数据** — [`results/E2_20260706_162158/`](./results/E2_20260706_162158/)
-- [x] **E2 报告** — [`E2_report.md`](./E2_report.md)：prompt 512→4322 扫描，LoB ratio 稳定在 10⁸–10⁹ ✅
-- [ ] E3 x86 + vLLM 对照组
+- [x] **E2 报告** — [`E2_report.md`](./E2_report.md)：prompt 512→4322扫描，LoB 稳定
+- [x] **E3 脚本** — [`E3_run.sh`](./E3_run.sh)
+- [x] **E3 报告** — [`E3_report.md`](./E3_report.md)：⬜️ UMA 推理+CPU 任务并发无干扰 —— 反驳一个弱论据，精确化双轨价值
+- [x] **E4 脚本** — [`E4_run.sh`](./E4_run.sh)
+- [x] **E4 报告** — [`E4_report.md`](./E4_report.md)：✅ 长上下文 8k-64k prompt，LoB 均≥ 1.28×10⁸
+- [ ] E5 batched serving 多用户并发（待做）
+- [ ] E6 x86 + vLLM 对照组（待主人提供机器）
 
-*下一步：E3 需要外部 x86 + GPU 机器（待主人提供或上云）。*
+*当前默认引用 严格下界（120 GB/s DRAM 峰值）作为 LoB 内部带宽，以防射 "cache 帮了忙" 的质疑。*

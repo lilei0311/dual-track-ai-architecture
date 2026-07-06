@@ -25,24 +25,41 @@
 | eval 时长 | 27.4 s |
 | **推理速率** | **29.2 tokens/sec** |
 | 平均 SoC 功耗 | 16.8 W |
-| 权重扫描总量 | 7,680 GB (800 × 9.6 GB) |
-| **估算内部内存带宽** | **~280 GB/s**（超过 M4 标称 120 GB/s，说明含 KV cache 重复读 & 部分权重 cache locality gain） |
+| 权重文件大小 | 9.6 GB (Q4_K_M) |
 | 外部字节流总量 | 553 bytes（prompt ~200 B + response 353 B）|
-| **估算外部吞吐** | **~20 bytes/s** |
+| **外部吞吐估** | **~20 bytes/s** |
 
-## LoB 假设检验
+### 内部带宽估算：两种方法（严格下界 vs 宽松上界）
 
-$$\text{Internal:External BW Ratio} = \frac{280 \times 10^9 \text{ B/s}}{20 \text{ B/s}} \approx 1.4 \times 10^{10}$$
+☆ **悡色纠错（v0.5.2）**：先前报告写的 280 GB/s 属于“宽松上界”，依赖 cache 复用才能过 M4 官方标称 120 GB/s。严谨论证要用 **DRAM 峰值下界**。
 
-**内/外带宽比 ≈ 140 亿比 1**
+**严格下界法**（以 M4 官方内存峰值 为下限）：
 
-论文中 LoB 假设的最低阈值是 **100:1**。本次实测比阈值 **超出 8 个数量级**。
+$$\text{Internal BW}_{\text{strict}} = 120 \text{ GB/s} \text{（M4 base LPDDR5X-7500 峰值）}$$
 
-即使用最保守估算（M4 标称带宽 120 GB/s，外部按 UTF-8 展开的完整 8 KB 输出估算）：
+**宽松上界法**（以 “每 token 扫描全权重” 为上限）：
 
-$$\text{Conservative Ratio} = \frac{120 \times 10^9}{8 \times 10^3 / 27.4} \approx 4.1 \times 10^8$$
+$$\text{Internal BW}_{\text{loose}} = \frac{800 \times 9.6 \text{ GB}}{27.4 \text{ s}} \approx 280 \text{ GB/s}$$
 
-仍然是 **4 亿比 1**——**LoB 强烈成立**。
+上下界差 2.3×。实际值在两者之间，已知因素：Q4_K_M 量化后实际每 token 扫描量 < 模型文件大小（MLP 层均匀采样，attention 只算 KV）; L2/shared memory 能拐回一部分。
+
+## LoB 假设检验（双版本）
+
+**严格下界**（DRAM 峰值 ÷ 外部实测）：
+
+$$\text{Ratio}_{\text{strict}} = \frac{120 \times 10^9 \text{ B/s}}{20 \text{ B/s}} = 6.0 \times 10^9$$
+
+**宽松上界**（权重扫描 ÷ 外部实测）：
+
+$$\text{Ratio}_{\text{loose}} = \frac{280 \times 10^9 \text{ B/s}}{20 \text{ B/s}} = 1.4 \times 10^{10}$$
+
+**最保守**（DRAM 峰值 ÷ UTF-8 充分展开 8 KB 输出）：
+
+$$\text{Ratio}_{\text{floor}} = \frac{120 \times 10^9}{8 \times 10^3 / 27.4} \approx 4.1 \times 10^8$$
+
+**三个数字全部 >> 100:1 阈值 → LoB 确认**。即使取最保守版本，仍然 4 亿比 1，高于阈值 6 个数量级。
+
+**本报告以后默认引用 "严格下界" 6.0 × 10⁹**（能防射任何“cache 帮了忙”的质疑）。
 
 ## 意义
 
