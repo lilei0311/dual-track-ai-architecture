@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="24.0.0">
+  <diagram id="dual_track_arch" name="双轨计算架构">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1050" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        
+        <mxCell id="title" value="双轨计算架构：AI推理与传统计算的解耦范式&lt;br&gt;Dual-Track Computing Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="1000" height="50" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="track_ai" value="轨道一：AI推理轨（独立封装模块）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=3;verticalAlign=top;align=center;spacingTop=10;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="600" height="520" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_internal_label" value="内部带宽 &gt; 1TB/s（全闭环）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=2;fontColor=#6c8ebf;" vertex="1" parent="track_ai">
+          <mxGeometry x="350" y="40" width="220" height="20" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="hbs" value="HBS（高带宽SRAM）&lt;br&gt;读写速度快1000倍 | 1600GB" style="step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;horizontal=0;size=20;" vertex="1" parent="track_ai">
+          <mxGeometry x="40" y="60" width="500" height="55" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="hbf" value="HBF（高带宽Flash）&lt;br&gt;NAND垂直堆叠 | 容量为DRAM 10倍 | 冷数据仓储" style="step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;horizontal=0;size=20;" vertex="1" parent="track_ai">
+          <mxGeometry x="40" y="125" width="500" height="55" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="hbm" value="HBM（高带宽DRAM）&lt;br&gt;模型权重 + KV缓存 | AI热数据主存" style="step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;horizontal=0;size=20;" vertex="1" parent="track_ai">
+          <mxGeometry x="40" y="190" width="500" height="55" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_compute" value="AI推理计算单元&lt;br&gt;专用ASIC | 矩阵运算优化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="track_ai">
+          <mxGeometry x="120" y="270" width="340" height="70" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_link_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#82b366;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="track_ai" source="hbs" target="hbf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_link_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#82b366;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="track_ai" source="hbf" target="hbm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_link_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#82b366;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="track_ai" source="hbm" target="ai_compute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_cooling" value="独立散热系统" style="hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;size=15;" vertex="1" parent="track_ai">
+          <mxGeometry x="40" y="360" width="140" height="45" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_power" value="独立供电模块" style="hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;size=15;" vertex="1" parent="track_ai">
+          <mxGeometry x="220" y="360" width="140" height="45" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_io" value="低速I/O接口&lt;br&gt;USB4 / USB-C / WiFi 7" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B6B;strokeColor=#CC0000;fontSize=12;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="track_ai">
+          <mxGeometry x="120" y="430" width="340" height="55" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="track_trad" value="轨道二：传统计算轨（现有架构）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;verticalAlign=top;align=center;spacingTop=10;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="80" width="580" height="520" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="cpu" value="CPU&lt;br&gt;x86 / ARM 通用处理器" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="track_trad">
+          <mxGeometry x="40" y="60" width="230" height="70" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="gpu" value="GPU&lt;br&gt;图形渲染 / 视频输出" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="track_trad">
+          <mxGeometry x="310" y="60" width="230" height="70" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ddr5" value="DDR5 RAM&lt;br&gt;操作系统 / 应用 / 游戏内存&lt;br&gt;64-256GB" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="track_trad">
+          <mxGeometry x="40" y="160" width="230" height="100" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ssd" value="NVMe SSD&lt;br&gt;持久化存储&lt;br&gt;OS / 应用 / 数据" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="track_trad">
+          <mxGeometry x="310" y="160" width="230" height="100" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="os_layer" value="操作系统 + 应用生态&lt;br&gt;Windows / macOS / Linux" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="track_trad">
+          <mxGeometry x="40" y="290" width="500" height="55" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="display" value="显示器" style="shape=monitor;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="track_trad">
+          <mxGeometry x="80" y="375" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="keyboard" value="键鼠/手柄" style="shape=mxgraph.peripheral.keyboard;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="track_trad">
+          <mxGeometry x="240" y="390" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="speaker" value="音频/麦克风" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="track_trad">
+          <mxGeometry x="400" y="390" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="trad_link_1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#82b366;endArrow=block;" edge="1" parent="track_trad" source="cpu" target="ddr5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="trad_link_2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#82b366;endArrow=block;" edge="1" parent="track_trad" source="gpu" target="ssd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="trad_link_3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#82b366;endArrow=block;" edge="1" parent="track_trad" source="ddr5" target="os_layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="trad_link_4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#82b366;endArrow=block;" edge="1" parent="track_trad" source="ssd" target="os_layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="trad_link_5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=1;strokeColor=#999999;endArrow=block;" edge="1" parent="track_trad" source="os_layer" target="display">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="trad_link_6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=1;strokeColor=#999999;endArrow=block;" edge="1" parent="track_trad" source="os_layer" target="keyboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="bridge" value="低带宽数据通道&lt;br&gt;仅传输输入输出数据流&lt;br&gt;带宽需求 &lt; 1MB/s" style="process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FF6B6B;strokeColor=#CC0000;fontSize=12;fontStyle=1;fontColor=#FFFFFF;size=0.08;" vertex="1" parent="1">
+          <mxGeometry x="680" y="450" width="240" height="70" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="link_ai_bridge" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#CC0000;endArrow=block;dashed=1;dashPattern=8 4;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="ai_io" target="bridge">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="link_bridge_trad" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#CC0000;endArrow=block;dashed=1;dashPattern=8 4;exitX=1;exitY=0.5;entryX=0;entryY=1;" edge="1" parent="1" source="bridge" target="os_layer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="compare_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#CCCCCC;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="630" width="1480" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="compare_title" value="核心数据对比" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="650" y="1120" width="200" height="24" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="cmp_1" value="外部接口带宽&lt;br&gt;&lt;b&gt;&lt; 1MB/s&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="100" y="900" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cmp_2" value="AI轨内部带宽&lt;br&gt;&lt;b&gt;&gt; 1TB/s&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="320" y="995" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cmp_3" value="内外带宽比&lt;br&gt;&lt;b&gt;&gt; 1,000,000 : 1&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="995" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cmp_4" value="GPU有效利用率&lt;br&gt;&lt;b&gt;仅 10%-30%&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="995" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cmp_5" value="HBM→HBF→HBS&lt;br&gt;&lt;b&gt;10年后HBF超HBM&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="980" y="995" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cmp_6" value="迭代方式&lt;br&gt;&lt;b&gt;AI模块独立升级&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="900" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="note_1" value="数据来源：金正浩教授专访（2026-07-05）| 架构设计：久保桃 &amp; 悟色 | CC BY 4.0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="400" y="900" width="700" height="25" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="user_input" value="用户输入&lt;br&gt;Prompt / 传感器数据 / 图像" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;html=1;outlineConnect=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="680" y="85" width="40" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="user_to_ai" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#6c8ebf;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="user_input" target="ai_io">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="ai_output" value="AI输出&lt;br&gt;生成文本 / 图像 / 决策" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;html=1;outlineConnect=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="680" y="180" width="40" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_to_user" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#d6b656;endArrow=block;exitX=0.5;exitY=0;entryX=0.5;entryY=1;dashed=1;" edge="1" parent="1" source="ai_io" target="ai_output">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

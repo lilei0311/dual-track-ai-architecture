@@ -1,133 +1,121 @@
-# Dual-Track AI Architecture (DTA)
+# Dual-Track Computing Architecture
 
-> **Decoupling AI inference from general-purpose computing via narrow-interface accelerators.**
->
-> A working proposal for how to get big-model AI on your desk **without** rebuilding your computer around it.
+**双轨计算架构：AI推理与传统计算的解耦范式**
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](./LICENSE)
-[![Status: Working Draft v0.1](https://img.shields.io/badge/status-working%20draft%20v0.1-orange.svg)](./paper.md)
+[![Status: Working Draft v0.2](https://img.shields.io/badge/status-working%20draft%20v0.2-orange.svg)](./paper.md)
+[![Language](https://img.shields.io/badge/paper-中文%20/%20EN-blue.svg)](./paper.md)
 
----
+> "AI的本质是内存，GPU真正工作的时间只有10%。" — 金正浩教授（HBM之父）
 
-## TL;DR
+## 核心洞察
 
-The industry's mainstream plan for the AI memory wall is to rebuild the entire computer around memory (Samsung Jung Kwan-ho's "100-story 3D chip" vision, HBM-everywhere designs, memory-centric OSes).
+当前计算系统面临根本矛盾：GPU算力持续增长，但有效利用率仅10%-30%。瓶颈不在"算多快"，而在"搬多快"。
 
-We think that's more ambition than we need.
+**双轨架构**提出一个不同的设计哲学：
 
-**Encapsulate AI inference as a self-contained module** with its own top-tier HBM inside, and connect it to a normal PC over a **deliberately narrow link** — USB4, Thunderbolt, or a couple of PCIe lanes. Games and the OS stay on the traditional track. AI becomes an **additive, hot-swappable, incrementally-upgradeable** component, the way discrete GPUs once split off from integrated graphics.
+> AI推理不需要绑架整个系统架构。将其封装为独立模块，内部闭环高带宽需求，对外仅需低带宽数据接口。
 
-The load-bearing assumption is the **Locality-of-Bandwidth (LoB)** hypothesis: the bandwidth-hungry parts of inference (weight streaming, KV-cache refresh, activation traffic) live **inside** the module. Only prompts and generated tokens cross the boundary. The ratio is easily 10⁴:1.
-
-If LoB holds, you don't need a new computer for AI. You need a new dongle.
-
----
-
-## Repository Layout
+## 架构概览
 
 ```
-dual-track-ai-architecture/
-├── README.md                                — this file
-├── paper.md                                 — full working draft paper (EN + 中文摘要)
-├── LICENSE                                  — CC BY 4.0
-└── diagrams/
-    ├── dual_track_architecture.svg          — system overview (rendered)
-    ├── dual_track_architecture.mmd          — same, in Mermaid
-    └── locality_of_bandwidth.mmd            — LoB traffic diagram
+┌──────────────────────────┐     ┌──────────────────────────┐
+│   轨道一：AI推理轨         │     │   轨道二：传统计算轨       │
+│                          │     │                          │
+│  ┌────────────────────┐  │     │  ┌──────┐  ┌──────────┐  │
+│  │  HBS (SRAM)        │  │     │  │ CPU  │  │  GPU     │  │
+│  │  快1000倍          │  │     │  │x86/ARM│  │ 图形渲染  │  │
+│  ├────────────────────┤  │     │  └──────┘  └──────────┘  │
+│  │  HBF (Flash)       │  │     │  ┌──────┐  ┌──────────┐  │
+│  │  容量10x DRAM      │  │     │  │DDR5  │  │ NVMe SSD │  │
+│  ├────────────────────┤  │     │  │OS/应用│  │ 持久存储  │  │
+│  │  HBM (DRAM)        │  │     │  └──────┘  └──────────┘  │
+│  │  模型权重/KV缓存    │  │     │                          │
+│  ├────────────────────┤  │     │  ┌────────────────────┐   │
+│  │  AI计算单元 (ASIC)  │  │     │  │ 操作系统 + 应用     │   │
+│  └────────────────────┘  │     │  └────────────────────┘   │
+│           │              │     │                          │
+│  ┌────────▼────────┐    │     │                          │
+│  │  USB4 / USB-C    │    │     │                          │
+│  │  低速I/O接口      │    │     │                          │
+│  └────────┬────────┘    │     │                          │
+│           │              │     │                          │
+└───────────┼──────────────┘     └──────────────────────────┘
+            │                               │
+            └─────────┬─────────────────────┘
+                      │
+              低带宽数据通道 (<1MB/s)
+              仅传输输入输出数据流
 ```
 
----
+## 关键数据
 
-## The Architecture at a Glance
+| 指标 | 数值 | 说明 |
+|------|------|------|
+| GPU有效利用率 | 10%-30% | 90%时间在等数据 |
+| AI轨内部带宽 | >1TB/s | 权重加载+KV缓存全闭环 |
+| 外部接口带宽 | <1MB/s | 仅传输prompt和输出 |
+| 内外带宽比 | >1,000,000:1 | 所以USB就够用 |
 
-![Dual-Track AI Architecture](./diagrams/dual_track_architecture.svg)
+## 论文
 
-```mermaid
-flowchart LR
-    subgraph HOST["🖥️ Track B — Traditional Host"]
-        CPU --- RAM["DDR5"] --- OS["OS · Apps · Games"] --- DRV["AI-USB Driver"]
-    end
-    subgraph AIM["⚡ Track A — AI Inference Module"]
-        NPU["Inference ASIC"] === HBM["HBM3/HBM4/HBS"]
-        NPU --- KV["Local KV-cache"]
-    end
-    HOST <-. "🔌 USB4 / TB5<br/>narrow link" .-> AIM
-```
+- 中文主版：[paper.md](paper.md) — 8 章完整学术探索，含数据表与参考文献
+- English extended draft：[paper.en.md](paper.en.md) — 引入 **Locality-of-Bandwidth (LoB) Hypothesis** 的形式化命名与量化推导
 
-- **Track B** (host): commodity CPU + GPU + DDR + OS. **Nothing changes.** Your games, your Photoshop, your VS Code, your Docker — all keep working the way they do today.
-- **Track A** (AI Inference Module, AIM): dedicated inference silicon with **HBM-class internal memory**. Big models live here. Weights, KV-cache, activations all stay resident.
-- **The link**: a narrow bus. Hundreds of MB/s is plenty. USB4 (5 GB/s) is already overkill.
+## 架构图
 
-## The Key Bet: Locality of Bandwidth
+- [`diagrams/dual_track_architecture.svg`](./diagrams/dual_track_architecture.svg) — 系统总览（Web 直渲）
+- [`diagrams/dual_track_architecture.drawio`](./diagrams/dual_track_architecture.drawio) — draw.io 源文件（可编辑）
+- [`diagrams/dual_track_architecture.mmd`](./diagrams/dual_track_architecture.mmd) — Mermaid 版本
+- [`diagrams/locality_of_bandwidth.mmd`](./diagrams/locality_of_bandwidth.mmd) — 带宽局部性数据流图
 
-For LLM decoding of a 70B model at INT4, per token:
+## 与现有方案对比
 
-- **Inside the module**: ≈ 35 GB weight-read + hundreds of MB of KV-cache traffic. At 50 tok/s, that's ≈ **1.75 TB/s** of internal pressure.
-- **Across the boundary**: a few bytes of generated token, plus modest control overhead.
+| 方案 | 思路 | 工程难度 | 消费者友好度 |
+|------|------|---------|------------|
+| 金正浩100层3D大楼 | 一切围绕内存整合 | 极高 | 低 |
+| Apple统一内存 | CPU/GPU/NPU共享内存 | 中 | 中 |
+| NVIDIA独立加速卡 | 多GPU通过NVLink互联 | 中 | 中 |
+| **双轨架构（本文）** | **AI独立封装+低带宽桥接** | **低** | **高** |
 
-Ratio in the pathological limit: **10¹⁰ : 1**. Even worst-case realistic streaming stays above **10⁴ : 1**.
+## 实现路线图
 
-So the external boundary is not the bottleneck. It never was — we've just been assuming everything must live in one chassis.
+- **近期(2026-2028)**: FPGA原型验证，现有HBM3e模组搭建推理模块
+- **中期(2028-2030)**: 定制推理ASIC + HBM4封装，标准化接口协议
+- **远期(2030+)**: HBF/HBS融合，模块内迷你3D架构
 
-## Why This Matters
+## 参考文献
 
-1. **Consumer upgrade path.** You don't buy a new machine for AI. You buy an "AI puck" and plug it in.
-2. **Faster iteration.** AIM vendors compete on tokens-per-dollar without dragging the OS and PC ecosystem behind them.
-3. **Failure isolation.** If your AIM overheats, your OS doesn't hang.
-4. **Mobile & edge.** A dongle-form AIM is thermally realistic in places a full memory-centric machine is not.
-5. **Standards leverage.** Whoever owns the "AI-USB" interface owns a platform tax analogous to USB-IF and Wi-Fi Alliance.
-
-## Open Questions
-
-Read the [paper](./paper.md) for the full list. Highlights:
-
-- Does LoB survive very long-context prefill (128k+ tokens)?
-- How is KV-cache portability handled when a user switches host machines?
-- What's the right standard model IR to avoid vendor lock-in?
-- USB4 round-trip latency floor vs interactive UX — is it good enough?
-- Thermal density: a 70B-class dongle is a small radiator. What form-factor wins?
-
-## Related & Adjacent Work
-
-- **NVIDIA DGX Spark / Project DIGITS** — closest existing hardware; too expensive, too coupled to network stack.
-- **Apple Neural Engine (M-series)** — a Track-A shard, but embedded, not external.
-- **Qualcomm Hexagon NPU** — right idea at small scale, needs to scale up.
-- **Thunderbolt eGPU enclosures** — proof-of-concept that valuable compute can sit outside the box.
-- **Google Coral / Hailo / Rockchip USB NPUs** — existence proofs at the small-model end.
-
-The gap this repo argues for: **HBM-class internal memory + narrow external link + LLM-class capacity + consumer plug-and-play**. No shipping product hits all four today.
-
-## Contributing
-
-This is an early idea, not a finished framework. We want:
-
-- **Empirical measurements.** Real workloads, real bandwidth traces, real LoB numbers.
-- **Counter-arguments.** Cases where LoB breaks down.
-- **Prior art.** Papers or products we missed.
-- **Diagrams & prose.** Improvements welcome.
-
-Open an issue or a pull request. Keep it substantive; no hype.
-
-## Authors
-
-- **猛奇奇 (Meng Qiqi)** — seed idea, architectural intuition.
-- **悟色** — initial framing, industry-parallel analysis.
-- **大聪明** — paper drafting, repository preparation.
+1. 金正浩教授专访：AI本质就是内存（2026-07-05）[36kr](https://36kr.com/p/3883376811044866)
+2. Apple Silicon Unified Memory Architecture
+3. NVIDIA NVLink and NVSwitch Technical Brief
 
 ## License
 
-Text and figures released under **[Creative Commons Attribution 4.0 International (CC BY 4.0)](./LICENSE)** — reuse freely with attribution.
+**[CC BY 4.0](./LICENSE)** — 自由复用，请署名。
+
+## Authors
+
+- **久保桃 / 猛奇奇** — 原始思路
+- **悟色** — 架构框架 + 中文论文起草
+- **大聪明** — 英文扩展 + LoB 假设形式化 + GitHub 仓库发布
 
 ## Citation
 
-If you find this idea useful in later work, please cite as:
-
 ```bibtex
 @misc{dta2026,
-  author = {Meng, Qiqi and 悟色 and 大聪明},
-  title  = {Dual-Track AI Architecture: Decoupling Inference from General-Purpose Computing via Narrow-Interface Accelerators},
+  author = {久保桃 and 悟色 and 大聪明},
+  title  = {Dual-Track Computing Architecture: Decoupling AI Inference from General-Purpose System Design},
   year   = {2026},
   howpublished = {\url{https://github.com/lilei0311/dual-track-ai-architecture}},
-  note   = {Working draft v0.1}
+  note   = {Working draft v0.2}
 }
 ```
+
+## Contributing
+
+欢迎实证测量、反例、遗漏的相关工作 —— 详见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
+
+---
+
+> 本内容由 Coze AI 生成，请遵循相关法律法规及《人工智能生成合成内容标识办法》使用与传播。
