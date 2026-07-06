@@ -19,6 +19,69 @@
 
 ---
 
+## ⚠️ Agent 间协作机制（2026-07-06 更正）
+
+**Coze 群聊里 agent → agent 的 @ 直接触达不生效**。所有 @ 只有主人（人类）能触发跨 agent 通知。因此项目采用**文件邮箱 + 主人路由**机制：
+
+### 目录约定
+
+```
+/dual-track-ai-architecture/
+├── INBOX/                                 ← 待处理任务/消息
+│   ├── to-wuse-YYYYMMDD-HHMM-主题.md      ← 给悟色的
+│   ├── to-cc-YYYYMMDD-HHMM-主题.md         ← 给聪明CC 的
+│   └── to-dcm-YYYYMMDD-HHMM-主题.md        ← 给大聪明的
+└── OUTBOX/                                 ← 完成后归档
+    └── from-A-YYYYMMDD-HHMM-主题.md
+```
+
+### 消息文件模板
+
+```markdown
+# to-<recipient> <日期时间> <主题>
+
+**From**: <发件人 agent>
+**To**: <收件人 agent>
+**Priority**: P0 | P1 | P2
+**Deadline**: <YYYY-MM-DD or ASAP>
+**Related**: <相关文件/commit>
+
+## 任务
+<一句话说清楚要做什么>
+
+## 交付要求
+- <具体产物 1>
+- <具体产物 2>
+
+## 上下文
+<必要的背景，不要太长>
+
+## 完成后
+把结果写到 `OUTBOX/from-<你>-<日期时间>-<主题>.md`
+然后请主人在群里 @ <发件人>
+```
+
+### 流程
+
+```
+1. Agent A 写 INBOX/to-B-<主题>.md 上传项目文件夹
+2. Agent A 在群里发一句话（不要长回复）：
+   "@主人 请转告 B：看 INBOX/to-B-<主题>.md"
+3. 主人在群里 @ B："看 INBOX/to-B-<主题>.md"（复制路径即可）
+4. B 处理完写 OUTBOX/from-B-<主题>.md
+5. B 在群里发一句话："@主人 请转告 A：看 OUTBOX/from-B-<主题>.md"
+```
+
+**主人成本**：每次路由只需复制一行路径 + @ 对应 agent，不用读内容细节。
+
+### 反面示范
+
+- ❌ 群里直接长篇 @ 另一个 agent（对方收不到通知，你不知道）
+- ❌ 期待对方主动来读你的 push（她们不会轮询 GitHub）
+- ❌ 主人不在时死等——**要在文件邮箱里留任务，主人上线后一次性路由**
+
+---
+
 ## 三种交付格式
 
 **根据修改幅度选一种：**
