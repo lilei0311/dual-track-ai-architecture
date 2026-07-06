@@ -1,0 +1,35 @@
+%% Dual-Track AI Architecture — high-level system view
+%% Rendered natively on GitHub.
+flowchart LR
+    subgraph HOST["🖥️  Track B — Traditional Host (unchanged)"]
+        direction TB
+        CPU["CPU<br/>(x86 / ARM)"]
+        GPU["GPU<br/>(rasterization / games)"]
+        RAM["DDR5 / LPDDR5X<br/>(large, moderate BW)"]
+        OS["OS · Apps · Games<br/>Browser · IDE · VMs"]
+        DRV["AI-USB Driver<br/>+ IPC library"]
+        CPU --- RAM
+        GPU --- RAM
+        CPU --- OS
+        OS --- DRV
+    end
+
+    subgraph AIM["⚡ Track A — AI Inference Module (self-contained)"]
+        direction TB
+        NPU["Inference ASIC / SoC<br/>(tensor + attention cores)"]
+        HBM["HBM3 / HBM4 / HBS<br/>(highest BW, sized to model)"]
+        KV["Local KV-cache<br/>+ Weight residency"]
+        FW["Local firmware<br/>· scheduler · quantizer"]
+        NPU === HBM
+        NPU --- KV
+        NPU --- FW
+    end
+
+    HOST <-. "🔌  Narrow external link<br/>USB4 / TB5 / low-lane PCIe<br/>~hundreds MB/s · low latency" .-> AIM
+
+    classDef host  fill:#eef6ff,stroke:#3b82f6,color:#0f172a
+    classDef aim   fill:#fff7ed,stroke:#f59e0b,color:#7c2d12
+    classDef link  stroke-dasharray: 6 4
+
+    class HOST host
+    class AIM  aim

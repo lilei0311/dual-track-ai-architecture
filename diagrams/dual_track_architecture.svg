@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial" font-size="14">
+  <defs>
+    <marker id="arrL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+    <marker id="arrR" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+    <linearGradient id="bgHost" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#eff6ff"/><stop offset="1" stop-color="#dbeafe"/>
+    </linearGradient>
+    <linearGradient id="bgAim" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/><stop offset="1" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">
+    Dual-Track AI Architecture (DTA)
+  </text>
+  <text x="600" y="56" text-anchor="middle" font-size="13" fill="#475569">
+    Decoupling inference from general-purpose computing via a narrow, high-locality boundary.
+  </text>
+
+  <!-- Track B: Host -->
+  <rect x="50" y="90" width="500" height="440" rx="18" fill="url(#bgHost)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="300" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">
+    🖥️  Track B — Traditional Host (unchanged)
+  </text>
+  <text x="300" y="140" text-anchor="middle" font-size="12" fill="#334155">CPU · GPU · DDR · OS · Apps · Games</text>
+
+  <rect x="90"  y="170" width="180" height="70" rx="10" fill="white" stroke="#3b82f6"/>
+  <text x="180" y="200" text-anchor="middle" font-weight="600">CPU</text>
+  <text x="180" y="220" text-anchor="middle" font-size="12" fill="#475569">x86 / ARM</text>
+
+  <rect x="330" y="170" width="180" height="70" rx="10" fill="white" stroke="#3b82f6"/>
+  <text x="420" y="200" text-anchor="middle" font-weight="600">GPU</text>
+  <text x="420" y="220" text-anchor="middle" font-size="12" fill="#475569">rasterization / games</text>
+
+  <rect x="90"  y="260" width="420" height="70" rx="10" fill="white" stroke="#3b82f6"/>
+  <text x="300" y="290" text-anchor="middle" font-weight="600">DDR5 / LPDDR5X</text>
+  <text x="300" y="310" text-anchor="middle" font-size="12" fill="#475569">large capacity · moderate bandwidth</text>
+
+  <rect x="90"  y="350" width="420" height="70" rx="10" fill="white" stroke="#3b82f6"/>
+  <text x="300" y="380" text-anchor="middle" font-weight="600">OS · Applications · Games</text>
+  <text x="300" y="400" text-anchor="middle" font-size="12" fill="#475569">Browser · IDE · VMs · Media</text>
+
+  <rect x="90"  y="440" width="420" height="70" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="300" y="470" text-anchor="middle" font-weight="600">AI-USB Driver + IPC Library</text>
+  <text x="300" y="490" text-anchor="middle" font-size="12" fill="#475569">standardised prompt / token / tensor RPC</text>
+
+  <!-- Track A: AIM -->
+  <rect x="650" y="90" width="500" height="440" rx="18" fill="url(#bgAim)" stroke="#f59e0b" stroke-width="2"/>
+  <text x="900" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#7c2d12">
+    ⚡ Track A — AI Inference Module (self-contained)
+  </text>
+  <text x="900" y="140" text-anchor="middle" font-size="12" fill="#78350f">Inference ASIC · HBM · Local KV · Firmware</text>
+
+  <rect x="690" y="170" width="420" height="90" rx="10" fill="white" stroke="#f59e0b"/>
+  <text x="900" y="200" text-anchor="middle" font-weight="600">Inference ASIC / SoC</text>
+  <text x="900" y="220" text-anchor="middle" font-size="12" fill="#78350f">tensor cores · attention units · sparsity</text>
+  <text x="900" y="240" text-anchor="middle" font-size="12" fill="#78350f">quantised INT4 / FP8 execution</text>
+
+  <rect x="690" y="280" width="420" height="90" rx="10" fill="white" stroke="#f59e0b"/>
+  <text x="900" y="310" text-anchor="middle" font-weight="600">HBM3 / HBM4 / HBS pool</text>
+  <text x="900" y="330" text-anchor="middle" font-size="12" fill="#78350f">highest-BW memory · sized to model class</text>
+  <text x="900" y="350" text-anchor="middle" font-size="12" fill="#78350f">≈ 1–5 TB/s internal, 32–256 GB capacity</text>
+
+  <rect x="690" y="390" width="200" height="80" rx="10" fill="#fff" stroke="#f59e0b"/>
+  <text x="790" y="420" text-anchor="middle" font-weight="600">Local KV-cache</text>
+  <text x="790" y="440" text-anchor="middle" font-size="12" fill="#78350f">+ resident weights</text>
+
+  <rect x="910" y="390" width="200" height="80" rx="10" fill="#fff" stroke="#f59e0b"/>
+  <text x="1010" y="420" text-anchor="middle" font-weight="600">Firmware</text>
+  <text x="1010" y="440" text-anchor="middle" font-size="12" fill="#78350f">scheduler · quantiser</text>
+
+  <!-- Narrow link -->
+  <line x1="550" y1="475" x2="650" y2="475"
+        stroke="#334155" stroke-width="4" stroke-dasharray="10 6"
+        marker-start="url(#arrR)" marker-end="url(#arrL)"/>
+  <text x="600" y="460" text-anchor="middle" font-weight="700" fill="#0f172a">🔌  Narrow link</text>
+  <text x="600" y="500" text-anchor="middle" font-size="12" fill="#334155">USB4 · TB5 · low-lane PCIe</text>
+  <text x="600" y="516" text-anchor="middle" font-size="12" fill="#334155">~hundreds MB/s · low latency</text>
+
+  <!-- Legend / caption -->
+  <rect x="50" y="555" width="1100" height="50" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="70" y="580" font-size="12" fill="#0f172a" font-weight="600">Locality-of-Bandwidth (LoB) claim:</text>
+  <text x="70" y="596" font-size="12" fill="#334155">
+    internal-to-external bandwidth ratio ≥ 100:1 (often 10⁴:1) — so the external interface may be USB-class without loss of inference throughput.
+  </text>
+</svg>

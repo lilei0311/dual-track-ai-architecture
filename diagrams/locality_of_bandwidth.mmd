@@ -1,0 +1,26 @@
+%% Locality-of-Bandwidth — internal vs external traffic
+flowchart LR
+    subgraph EXT["🔌 External boundary (USB / TB / narrow PCIe)"]
+        direction LR
+        P["Prompt<br/>text · features"]
+        T["Tokens · audio · tiles<br/>(streamed out)"]
+    end
+
+    subgraph INT["⚡ Inside the AI Inference Module"]
+        direction TB
+        W["Weight streaming<br/>≈ 10s of GB per token"]
+        K["KV-cache traffic<br/>≈ 100 MB – GBs per step"]
+        A["Activations<br/>tensor-scale, per layer"]
+        C["Compute cores"]
+        W --> C
+        K --> C
+        A --> C
+    end
+
+    P == "≈ hundreds KB/s" ==> C
+    C == "≈ few bytes / token" ==> T
+
+    classDef ext fill:#eef6ff,stroke:#3b82f6
+    classDef int fill:#fff7ed,stroke:#f59e0b
+    class EXT ext
+    class INT int
