@@ -53,6 +53,17 @@
 - Appendix A.3 扩展
 - Date footer：2026-07-07 (v0.7)
 
+### EVIDENCE.md v0.5.1 → v0.6
+
+合入红果CC datasheet 接力复核成果，关闭群文件 v0.3 与仓库 v0.5.1 长期分叉：
+
+- 新增行：**AMD Instinct MI300X**（HBM3 5.3 TB/s / 192 GB / PCIe Gen5 ≈ 83:1）
+- 新增行：**Intel Gaudi 3**（HBM2e 3.7 TB/s / PCIe ≈ 58:1，24×200GbE 作为反证信号入备注）
+- 新增行：**NVIDIA RTX 2050 Mobile**（GDDR6 112 GB/s，引用本项目 E5 实测 LoB_strict ≈ 1.96×10⁸）
+- “待补”列表删除 MI300X / Gaudi 3，保留 Groq / Cerebras / Tenstorrent / SambaNova（TODO v0.7）
+- Apple M4 base 补充一条官方来源（Apple Support tech specs）与 Newsroom 互相印证
+- 仓库 EVIDENCE.md 回同步到群文件，群项目 v0.3 已被 v0.6 覆写
+
 ### 協作方
 
 - **得色**：paper.md v0.7 起草，包括 E5 设计→M4 数据→RTX 2050 数据→对比表→结论的完整链路

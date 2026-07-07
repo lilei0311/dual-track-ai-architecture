@@ -29,8 +29,11 @@
 | **AMD XDNA (Ryzen AI)** | 共享 DDR ~90 GB/s | — (SoC 内) | N/A | ✓ 内嵌案例 | |
 | **Thunderbolt 4 eGPU + RTX 4090** | GDDR6X ≈ 1 TB/s | TB4 ≈ 4–5 GB/s（PCIe Gen3 x4 等效） | **≈ 200–250 : 1** | ★★★ 强支持 | 聪明CC 复核：游戏场景 **只损失 20% 性能**，已量产 10 年 — [TechPowerUp 测试](https://www.techpowerup.com/review/nvidia-geforce-rtx-4090-pci-express-scaling/29.html)；TB4 规格来源：[Intel press deck PDF](https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf) |
 | **OCuLink 外置 GPU 盒 + RTX 4090** | GDDR6X ≈ 1 TB/s | OCuLink PCIe Gen4 x4 ≈ 8 GB/s | **≈ 125 : 1** | ★★★ 强支持 | 聪明CC 复核：**只损失 8–15% 性能**，便宜、DIY 友好 |
+| **AMD Instinct MI300X** | HBM3 ≈ **5.3 TB/s** / 192 GB | PCIe Gen5 x16 ≈ 64 GB/s（to host） | **≈ 83 : 1**（PCIe） | ★★★ 强支持 | 304 CUs；红果CC 复核；来源：AMD 官方 [Instinct MI300 系列](https://www.amd.com/en/products/accelerators/instinct/mi300.html) |
+| **Intel Gaudi 3** | HBM2e ≈ **3.7 TB/s** / 128 GB | PCIe Gen5 x16 ≈ 64 GB/s（to host） / 24×200GbE ≈ 600 GB/s（cluster fabric） | **≈ 58 : 1**（PCIe） | ★★ 中等（fabric 侧较弱） | 24×200GbE 是集群互连信号，见反证候选；红果CC 复核；来源：Intel [PCIe Product Brief](https://cdrdv2-public.intel.com/817488/Gaudi%203%20PCIe%20Product%20Brief_RB_1_V6.pdf) + [White Paper](https://cdrdv2-public.intel.com/817486/gaudi-3-ai-accelerator-white-paper.pdf) |
+| **NVIDIA RTX 2050 Mobile** | GDDR6 ≈ **112 GB/s** / 4 GB / 2048 CUDA | 笔记本内部 PCIe；E5 实测外部字节流 ~KB/s 级 | **LoB_strict ≈ 1.96 × 10⁸**（E5 实测） | ★★★ 强支持 | E5 跨平台跨拓扑对照实验；红果CC Windows 侧数据交付；见 §5.4 与 benchmarks/E5_report.md |
 
-**待补**：Intel Gaudi 3、AMD MI300X、Groq LPU、Cerebras WSE、Tenstorrent Wormhole、SambaNova。TODO(v0.4)。
+**待补**：Groq LPU、Cerebras WSE、Tenstorrent Wormhole、SambaNova。TODO(v0.7)。
 
 ---
 
@@ -139,14 +142,21 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
 - [x] **Thunderbolt 4**：Intel 官方 press deck [intel-thunderbolt4-announcement-press-deck.pdf](https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf) — 40 Gbps、PCIe 32 Gbps、存储 3,000 MB/s
 - [x] **Thunderbolt 5**：Intel 官方 tech brief [Thunderbolt_5_TechBrief_2023_09_12.pdf](https://www.thunderbolttechnology.net/sites/default/files/Thunderbolt_5_TechBrief_2023_09_12.pdf) — 80 Gbps、PCIe 64 Gbps、Bandwidth Boost 120 Gbps
 
+### ✅ 新增复核（红果CC v0.6）
+
+- [x] **AMD Instinct MI300X**：AMD 官方 [Instinct MI300 系列](https://www.amd.com/en/products/accelerators/instinct/mi300.html) — HBM3 5.3 TB/s、192 GB、304 CUs
+- [x] **Intel Gaudi 3**：Intel 官方 [PCIe Product Brief PDF](https://cdrdv2-public.intel.com/817488/Gaudi%203%20PCIe%20Product%20Brief_RB_1_V6.pdf) + [White Paper PDF](https://cdrdv2-public.intel.com/817486/gaudi-3-ai-accelerator-white-paper.pdf) — HBM2e 3.7 TB/s、128 GB、24×200 GbE fabric
+- [x] **NVIDIA RTX 2050 Mobile**：112 GB/s GDDR6 / 4 GB / 2048 CUDA — 第三方 spec 聚合（GPU-Monkey / NanoReview）+ 本项目 E5 实测归档
+- [x] **Apple M4 base 120 GB/s 补充来源**：Apple Support [MacBook Pro 14-inch M4 tech specs](https://support.apple.com/en-us/121552)（与 M4 Pro/Max Newsroom 数据相互印证）
+
 ### ⏳ 仍待复核
 
-- [ ] **昂腾 AI Station / OrangePi AI Station**：目前仅找到 CSDN/经销商页面，华为/香橙派官方 spec 待确认
-- [ ] **Intel Movidius NCS2**：Intel datasheet 待查
-- [ ] **Cerebras / Groq / Tenstorrent / AMD MI300X / Intel Gaudi 3**：各自 architecture whitepaper 待补
+- [ ] **昂腾 AI Station / OrangePi AI Station**：目前仅找到 CSDN/经销商页面，华为/香橙派官方 spec 待确认（红果CC 排 P1）
+- [ ] **Intel Movidius NCS2**：Intel datasheet 待查（红果CC 排 P1）
+- [ ] **Cerebras WSE-3 / Groq LPU / Tenstorrent Wormhole/Blackhole / SambaNova**：各自 architecture whitepaper 待补（红果CC 排 P2）
 
-以上交接给 **聪明CC** 统一复核，见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
+以上交接给 **红果CC** 继续复核，见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
 
 ---
 
-*Version: v0.5.1 · 2026-07-06 · 聪明CC datasheet 复核 + 来源补齐（合入 v0.5 之上）*
+*Version: v0.6 · 2026-07-07 · 红果CC datasheet 接力复核（MI300X / Gaudi 3 / RTX 2050）+ E5 跨平台数据引用*
