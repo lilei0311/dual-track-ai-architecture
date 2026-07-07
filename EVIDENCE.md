@@ -21,8 +21,8 @@
 | **NVIDIA H100 SXM** | HBM3 ≈ **3 TB/s** | NVLink 900 GB/s（域内）/ PCIe Gen5 x16 ~64 GB/s（跨机） | **≈ 47 : 1**（PCIe） | ★★ 中等 | NVLink 域内不能算"外部"；HBM 带宽来源：[NVIDIA H100 .md](https://www.nvidia.com/en-us/data-center/h100.md) |
 | **NVIDIA B200** | HBM3e ≈ **8 TB/s** | NVLink 5 ≈ 1.8 TB/s / PCIe Gen5 x16 ~64 GB/s | **≈ 125 : 1**（PCIe） | ★★★ 强支持 | 来源：NVIDIA DGX B200 [.md](https://www.nvidia.com/en-us/data-center/dgx-b200.md)（8 GPU 共 64 TB/s HBM3e）+ Blackwell 架构 [.md](https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture.md) |
 | **RK182X 外置算力卡（RK1828）** | **3D-stacked DRAM ≈1 TB/s** 内部带宽 | PCIe 2.0 x1 / USB 3.0 ≈ 0.5 GB/s | **≈ 2000 : 1** | ★★★ 强支持 | 聪明CC 复核：20 TOPS，支持 0.5B–8B，官方 RKNN3 SDK 数据 **Qwen3-8B decode 61.11 TPS**；来源：[Rockchip RK182X 官网](https://www.rock-chips.com/a/en/products/RK18_Series/2025/1114/2114.html) + [RKNN3 SDK 发布](https://www.rock-chips.com/a/cn/news/rockchip/2026/0309/2163.html) |
-| **华为昂腾 AI Station 盒子** | 内部专用总线 ~百 GB/s（估） | PCIe + USB | **~100:1**（估） | ★★★ 强支持 | 176 TOPS，具身智能盒子形态 |
-| **Intel Movidius NCS2** | 内部 SRAM | USB 3.0 | 估 ≥ 50:1 | ★★ 中等 | 视觉推理专用 |
+| **华为昂腾 AI Station 盒子 / OrangePi AI Station** | LPDDR4X ~**百 GB/s**（估） | PCIe + USB 3.0 + 双千兆网 | **~100:1–200:1**（估） | ★★★ 强支持 | 176 TOPS INT8，Ascend 310 / 310P，48/96 GB LPDDR4X；**官方详细 spec 暂缺**，媒体来源：[IT之家](https://www.ithome.com/0/909/888.htm)、[Sohu](https://www.sohu.com/a/971717897_122066678)；红果CC P1 复核 |
+| **Intel Movidius NCS2** | Myriad X 片上内存 ≈ **450 GB/s** | USB 3.1 Gen1 ≈ 0.625 GB/s | **≈ 720 : 1** | ★★★ 强支持 | Myriad X VPU，4 TOPS peak / 1 TOPS DNN；官方 [Product Brief PDF](https://cdrdv2-public.intel.com/749742/neural-compute-stick2-product-brief.pdf)；红果CC P1 复核 |
 | **Google Coral USB Accelerator** | Edge TPU 内部 SRAM ~数十 GB/s（估） | USB 3.0 ≈ 0.625 GB/s | **≈ 数十 : 1** | ★★ 中等 | 小模型场景已被验证；官方 datasheet：[cdn-reichelt PDF](https://cdn-reichelt.de/documents/datenblatt/A300/CORAL-USB-ACCELERATOR-DATASHEET.pdf)（确认 USB 3.1 Gen1 5 Gb/s、MobileNet v2 400 FPS） |
 | **Hailo-8 M.2** | 板载 SRAM ~数百 GB/s（估） | PCIe Gen3 x4 ≈ 4 GB/s | **≈ 100 : 1** | ★★★ 强支持 | 26 TOPS INT8，边缘视觉；来源：[Hailo-8 product brief](https://hailo.ai/wp-content/uploads/2023/10/hailo-8-product-brief-rev3.26.pdf) + [M.2 Starter Kit brief](https://hailo.ai/files/hailo-8-m-2-starter-kit-product-brief-en/) |
 | **Qualcomm Hexagon NPU (SD8 Gen3)** | 共享 SoC memory ~77 GB/s | — (SoC 内) | N/A | ✓ 内嵌案例 | |
@@ -142,6 +142,11 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
 - [x] **Thunderbolt 4**：Intel 官方 press deck [intel-thunderbolt4-announcement-press-deck.pdf](https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf) — 40 Gbps、PCIe 32 Gbps、存储 3,000 MB/s
 - [x] **Thunderbolt 5**：Intel 官方 tech brief [Thunderbolt_5_TechBrief_2023_09_12.pdf](https://www.thunderbolttechnology.net/sites/default/files/Thunderbolt_5_TechBrief_2023_09_12.pdf) — 80 Gbps、PCIe 64 Gbps、Bandwidth Boost 120 Gbps
 
+### ✅ 新增复核（红果CC v0.6.1，P1 接力）
+
+- [x] **OrangePi AI Station / 华为昂腾盒子**：176 TOPS INT8，48/96 GB LPDDR4X；**官方详细 spec 暂缺**，当前引用 IT之家 / Sohu 媒体报道（已入编到数据表，待 P2 后回头抽官方 spec）
+- [x] **Intel Movidius NCS2**：Myriad X 片上内存 ≈ 450 GB/s，USB 3.1 Gen1 接口；来源 Intel 官方 [Product Brief PDF](https://cdrdv2-public.intel.com/749742/neural-compute-stick2-product-brief.pdf)
+
 ### ✅ 新增复核（红果CC v0.6）
 
 - [x] **AMD Instinct MI300X**：AMD 官方 [Instinct MI300 系列](https://www.amd.com/en/products/accelerators/instinct/mi300.html) — HBM3 5.3 TB/s、192 GB、304 CUs
@@ -151,12 +156,10 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
 
 ### ⏳ 仍待复核
 
-- [ ] **昂腾 AI Station / OrangePi AI Station**：目前仅找到 CSDN/经销商页面，华为/香橙派官方 spec 待确认（红果CC 排 P1）
-- [ ] **Intel Movidius NCS2**：Intel datasheet 待查（红果CC 排 P1）
 - [ ] **Cerebras WSE-3 / Groq LPU / Tenstorrent Wormhole/Blackhole / SambaNova**：各自 architecture whitepaper 待补（红果CC 排 P2）
 
 以上交接给 **红果CC** 继续复核，见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
 
 ---
 
-*Version: v0.6 · 2026-07-07 · 红果CC datasheet 接力复核（MI300X / Gaudi 3 / RTX 2050）+ E5 跨平台数据引用*
+*Version: v0.6.1 · 2026-07-07 · 红果CC P1 接力复核（OrangePi/昂腾 + Movidius NCS2）*
