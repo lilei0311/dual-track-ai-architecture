@@ -53,6 +53,26 @@
 - Appendix A.3 扩展
 - Date footer：2026-07-07 (v0.7)
 
+### EVIDENCE.md v0.6.1 → v0.7
+
+合入红果CC P2 成果，datasheet 复核全套完成：
+
+- 新增 4 行：**Groq LPU**（SRAM 80 TB/s，**~2 500 : 1**）、**Cerebras WSE-3**（SRAM 21 PB/s，**~140 000 : 1**）、**SambaNova SN40L**（HBM3 1.6 TB/s，~32–64 : 1）、**Tenstorrent Wormhole n150**（GDDR6 288 GB/s，**~9 : 1** — 反例候选）
+- “待补”从 Groq/Cerebras/Tenstorrent/SambaNova 替换为后续可补的 Blackhole/MI325X/Gaudi 4 (TODO v0.8)
+- TODO 小节标题 “仍待复核” → “✅ 全部完成”
+- 反证候选块新增 Tenstorrent Wormhole n150 与 Intel Gaudi 3 fabric 两条记录；对 Cerebras WSE 条目补上 v0.7 复核后的完整结论（属 LoB 极端版非反例）
+- Version footer → v0.7
+
+合完后，仓库 EVIDENCE.md 与群项目文件同步到 v0.7，避免再次分叉。
+
+### EVIDENCE.md v0.6 → v0.6.1
+
+合入红果CC P1 接力复核成果：
+
+- 升级行：**华为昂腾 / OrangePi AI Station**（LPDDR4X ~百 GB/s，~100:1–200:1）、**Intel Movidius NCS2**（Myriad X 450 GB/s / USB 3.1 Gen1，**≈ 720 : 1**）
+- NCS2 拿到了 Intel 官方 Product Brief PDF；昂腾/OrangePi 官方详细 spec 暂缺，以 IT之家 / Sohu 媒体报道兕底并标注
+- “仍待复核”列表清理，只留 P2 四项
+
 ### EVIDENCE.md v0.5.1 → v0.6
 
 合入红果CC datasheet 接力复核成果，关闭群文件 v0.3 与仓库 v0.5.1 长期分叉：

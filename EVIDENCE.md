@@ -32,8 +32,12 @@
 | **AMD Instinct MI300X** | HBM3 ≈ **5.3 TB/s** / 192 GB | PCIe Gen5 x16 ≈ 64 GB/s（to host） | **≈ 83 : 1**（PCIe） | ★★★ 强支持 | 304 CUs；红果CC 复核；来源：AMD 官方 [Instinct MI300 系列](https://www.amd.com/en/products/accelerators/instinct/mi300.html) |
 | **Intel Gaudi 3** | HBM2e ≈ **3.7 TB/s** / 128 GB | PCIe Gen5 x16 ≈ 64 GB/s（to host） / 24×200GbE ≈ 600 GB/s（cluster fabric） | **≈ 58 : 1**（PCIe） | ★★ 中等（fabric 侧较弱） | 24×200GbE 是集群互连信号，见反证候选；红果CC 复核；来源：Intel [PCIe Product Brief](https://cdrdv2-public.intel.com/817488/Gaudi%203%20PCIe%20Product%20Brief_RB_1_V6.pdf) + [White Paper](https://cdrdv2-public.intel.com/817486/gaudi-3-ai-accelerator-white-paper.pdf) |
 | **NVIDIA RTX 2050 Mobile** | GDDR6 ≈ **112 GB/s** / 4 GB / 2048 CUDA | 笔记本内部 PCIe；E5 实测外部字节流 ~KB/s 级 | **LoB_strict ≈ 1.96 × 10⁸**（E5 实测） | ★★★ 强支持 | E5 跨平台跨拓扑对照实验；红果CC Windows 侧数据交付；见 §5.4 与 benchmarks/E5_report.md |
+| **Groq LPU (1st-gen)** | 片上 SRAM ≈ **80 TB/s** | PCIe Gen4 x16 ≈ 32 GB/s | **≈ 2 500 : 1** | ★★★ 强支持 | 230 MB SRAM，750 TOPS INT8；红果CC P2 复核；官方 [Product Brief PDF](https://groq.sa/wp-content/uploads/2024/08/GroqChip%E2%84%A2-Processor-Product-Brief-v1.7.pdf) |
+| **Cerebras WSE-3 (CS-3)** | 片上 SRAM ≈ **21 PB/s** | 系统 I/O **1.2 Tb/s** ≈ 150 GB/s | **≈ 140 000 : 1** | ★★★ 强支持 | 44 GB SRAM，900K cores；红果CC P2 复核；官方 [CS-3 System](https://www.cerebras.ai/system) / [Chip](https://www.cerebras.ai/chip) |
+| **SambaNova SN40L RDU** | HBM3 ≈ **1.6 TB/s** / 64 GB | 400/200 GbE ≈ 25–50 GB/s（估） | **≈ 32–64 : 1** | ★★ 中等支持 | 520 MB SRAM；红果CC P2 复核；Hot Chips 2024 [PDF](https://hc2024.hotchips.org/assets/program/conference/day1/48_HC2024.Sambanova.Prabhakar.final-withoutvideo.pdf) |
+| **Tenstorrent Wormhole n150** | GDDR6 ≈ **288 GB/s** / 12 GB | PCIe Gen4 x16 ≈ 32 GB/s / 2×QSFP-DD 200G ≈ 50 GB/s | **≈ 9 : 1**（PCIe） | ★ 弱支持（训练/集群扩展取向、**反例候选**） | 108 MB SRAM，80 Tensix cores；红果CC P2 复核；官方 [Docs](https://docs.tenstorrent.com/aibs/wormhole/index.html) |
 
-**待补**：Groq LPU、Cerebras WSE、Tenstorrent Wormhole、SambaNova。TODO(v0.7)。
+**待补**：后续可补 Blackhole、MI325X、Gaudi 4 等。TODO(v0.8)。
 
 ---
 
@@ -83,7 +87,9 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
 
 - **DGX Spark 的 200GbE 网线**：如果 25 GB/s 网线已经是当前旗舰的选择，说明厂商认为 USB 级别（5 GB/s）**不够**。为什么？多用户？还是模型热切换？
 - **NVLink vs PCIe**：H100/B200 在同一 rack 内跑 NVLink 900+ GB/s，说明在**训练+超大集群**场景 LoB 不成立。但训练本文明确不覆盖。
-- **Cerebras WSE**：整晶圆芯片，走的是"全部在片上"路线——是 DTA 的极端版还是反例，取决于外部接口。
+- **Cerebras WSE**：整晶圆芯片，走的是“全部在片上”路线——是 DTA 的极端版还是反例，取决于外部接口。→ v0.7 复核后看到：系统 I/O 1.2 Tb/s（≈ 150 GB/s）已很宽，但 SRAM 内部 21 PB/s 仍使 LoB ≈ 140 000 : 1——属“LoB 极端版”而非反例。
+- **Intel Gaudi 3 的 24×200 GbE fabric**：聚合带宽 ≈ 600 GB/s，已接近 HBM2e 局部带宽。1/6——在集群训练取向下库存不服从 LoB；但**推理反而可退回 PCIe 局面**。
+- **Tenstorrent Wormhole n150**：官方给 GDDR6 288 GB/s + PCIe Gen4 x16 32 GB/s + 2×QSFP-DD 200G 50 GB/s，**LoB ≈ 9 : 1**。这是少见的高外带宽、低 LoB 比的量产品，明确面向“多卡拓扑训练集群”市场——**训练/集群扩展取向的芯片不会自然服从 LoB，这与本文推理专一假设一致**。
 
 ---
 
@@ -142,6 +148,13 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
 - [x] **Thunderbolt 4**：Intel 官方 press deck [intel-thunderbolt4-announcement-press-deck.pdf](https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf) — 40 Gbps、PCIe 32 Gbps、存储 3,000 MB/s
 - [x] **Thunderbolt 5**：Intel 官方 tech brief [Thunderbolt_5_TechBrief_2023_09_12.pdf](https://www.thunderbolttechnology.net/sites/default/files/Thunderbolt_5_TechBrief_2023_09_12.pdf) — 80 Gbps、PCIe 64 Gbps、Bandwidth Boost 120 Gbps
 
+### ✅ 新增复核（红果CC v0.7，P2 接力）
+
+- [x] **Groq LPU (1st-gen)**：230 MB SRAM，80 TB/s，PCIe Gen4 x16；官方 [Product Brief PDF](https://groq.sa/wp-content/uploads/2024/08/GroqChip%E2%84%A2-Processor-Product-Brief-v1.7.pdf)
+- [x] **Cerebras WSE-3 (CS-3)**：44 GB SRAM，21 PB/s，系统 I/O 1.2 Tb/s；官方 [CS-3 System](https://www.cerebras.ai/system) / [Chip](https://www.cerebras.ai/chip)
+- [x] **SambaNova SN40L RDU**：64 GB HBM3，~1.6 TB/s，520 MB SRAM；Hot Chips 2024 [PDF](https://hc2024.hotchips.org/assets/program/conference/day1/48_HC2024.Sambanova.Prabhakar.final-withoutvideo.pdf)
+- [x] **Tenstorrent Wormhole n150**：12 GB GDDR6，288 GB/s，PCIe Gen4 x16 + 2×QSFP-DD 200G；官方 [Docs](https://docs.tenstorrent.com/aibs/wormhole/index.html)
+
 ### ✅ 新增复核（红果CC v0.6.1，P1 接力）
 
 - [x] **OrangePi AI Station / 华为昂腾盒子**：176 TOPS INT8，48/96 GB LPDDR4X；**官方详细 spec 暂缺**，当前引用 IT之家 / Sohu 媒体报道（已入编到数据表，待 P2 后回头抽官方 spec）
@@ -154,12 +167,12 @@ Rockchip RK182X 系列采用 **3D-stacked DRAM 方案，内部带宽 ≈ 1 TB/s*
 - [x] **NVIDIA RTX 2050 Mobile**：112 GB/s GDDR6 / 4 GB / 2048 CUDA — 第三方 spec 聚合（GPU-Monkey / NanoReview）+ 本项目 E5 实测归档
 - [x] **Apple M4 base 120 GB/s 补充来源**：Apple Support [MacBook Pro 14-inch M4 tech specs](https://support.apple.com/en-us/121552)（与 M4 Pro/Max Newsroom 数据相互印证）
 
-### ⏳ 仍待复核
+### ✅ 全部完成
 
-- [ ] **Cerebras WSE-3 / Groq LPU / Tenstorrent Wormhole/Blackhole / SambaNova**：各自 architecture whitepaper 待补（红果CC 排 P2）
+后续可在 v0.8 时补充：Blackhole、MI325X、Gaudi 4 等新一代高端 AI 加速器。
 
 以上交接给 **红果CC** 继续复核，见 [`TASKS-FOR-CC.md`](./TASKS-FOR-CC.md)。
 
 ---
 
-*Version: v0.6.1 · 2026-07-07 · 红果CC P1 接力复核（OrangePi/昂腾 + Movidius NCS2）*
+*Version: v0.7 · 2026-07-07 · 红果CC 完成 聪明CC 剩余 datasheet 复核（MI300X / Gaudi 3 / RTX 2050 / 昂腾 / NCS2 / Groq / Cerebras / SambaNova / Tenstorrent）+ E5 跨平台数据引用*
