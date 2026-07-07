@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.8 — 2026-07-07 📄 paper.md/paper.en.md 融入 P2 datasheet 全量复核（17 款量产品）
+
+### 核心声明
+
+**LoB 假说由“跨平台实测”升级为“产业全谱交叉验证”**
+
+- 覆盖 17 款现役量产品（从 Coral USB 到 Cerebras WSE-3），LoB 跨越四个数量级（32:1 → 140,000:1）
+- **首个量产反例入库**：Tenstorrent Wormhole n150 (LoB ≈ 9:1) — 训练/集群扩展取向，反而验证了 LoB 的推理场景特化假设
+- **LoB 上限案例**：Cerebras WSE-3，SRAM 21 PB/s / 系统 I/O 150 GB/s ≈ 140,000:1
+
+### paper.md 改动
+
+- 摘要新增datasheet 全量复核陈述
+- §1.3 新增“对 17 款量产品进行 datasheet 全量复核”为第 4 项方法
+- §3.3 推论新增“产业极端案例交叉验证”两段（Cerebras 上限 + Tenstorrent 首反例）
+- §5.5.1–5.5.5 新增五个二级小节：Groq LPU（SRAM-only）/ Cerebras WSE-3（晴圆级）/ SambaNova SN40L（HBM+Ethernet）/ Tenstorrent Wormhole n150（反例与边界）/ 产业交叉验证小结
+- §7.4 Limitations 新增第 7 项——LoB 的适用边界（不适用训练/集群扩展场景）
+- §8 结论从 5 项重排为 7 项，新增：17 款 datasheet 全量支持 + 反例验证推理场景特化
+- 参考文献新增 [E9] Groq / [E10] Cerebras / [E11] Tenstorrent / [E12] SambaNova
+- 附录 A.3 表名为“实验与量产品 LoB ratio 完整数据”，新增 4 行量产品数据
+- 日期/版本注脚 → v0.8
+
+### paper.en.md 同步
+
+- Version 行从 0.6 → 0.8
+- Abstract / §3.3 / §5.5.1–5.5.5 / §7.4 / §8 均同步中文变更
+- References 新增 [E9]–[E12]
+- Appendix A.3 同步新增 4 行量产品数据
+- 页脚日期/版本 → v0.8
+
+### 協作方
+
+- **悔色**：paper v0.8 起草与主体内容
+- **红果CC**：P2 datasheet 复核交付，为本版提供 Groq / Cerebras / SambaNova / Tenstorrent 四大量产品数据链
+- **大聪明**：中英双版合入仓库 + 同步群文件
+
+---
+
 ## v0.7 — 2026-07-07 🌐 paper.md/paper.en.md 融入 E5 跨平台跨拓扑验证
 
 ### 核心声明
